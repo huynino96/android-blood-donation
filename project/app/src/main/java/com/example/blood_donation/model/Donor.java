@@ -1,4 +1,4 @@
-package com.example.blood_donation.user;
+package com.example.blood_donation.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,5 +11,9 @@ import lombok.Setter;
 @AllArgsConstructor
 public class Donor {
     private int totalDonate;
-    private String lastDonate, name, phone, UID, address;
+    private String lastDonate;
+    private String name;
+    private String phone;
+    private String UID;
+    private String address;
 }

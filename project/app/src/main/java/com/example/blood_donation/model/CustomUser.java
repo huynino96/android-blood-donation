@@ -1,4 +1,4 @@
-package com.example.blood_donation.user;
+package com.example.blood_donation.model;
 
 import java.io.Serializable;
 
@@ -15,8 +15,9 @@ public class CustomUser implements Serializable {
     private String address;
     private String division;
     private String phone;
-    private String name, bloodGroup;
-    private String time, date;
-
+    private String name;
+    private String bloodGroup;
+    private String time;
+    private String date;
 
 }

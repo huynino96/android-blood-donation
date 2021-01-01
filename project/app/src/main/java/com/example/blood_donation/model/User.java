@@ -1,4 +1,4 @@
-package com.example.blood_donation.user;
+package com.example.blood_donation.model;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
