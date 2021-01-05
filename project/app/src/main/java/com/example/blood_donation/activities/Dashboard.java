@@ -22,6 +22,8 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import com.example.blood_donation.R;
 import com.example.blood_donation.fragments.AboutUs;
 import com.example.blood_donation.fragments.AchievementView;
+import com.example.blood_donation.fragments.BloodInfo;
+import com.example.blood_donation.fragments.HomeView;
 import com.example.blood_donation.model.User;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;

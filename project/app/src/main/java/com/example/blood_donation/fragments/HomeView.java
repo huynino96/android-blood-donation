@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.blood_donation.R;
+import com.example.blood_donation.adapters.BloodRequestAdapter;
 import com.example.blood_donation.model.CustomUser;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -30,6 +31,7 @@ import com.google.firebase.database.ValueEventListener;
 
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class HomeView extends Fragment {
 
@@ -39,7 +41,7 @@ public class HomeView extends Fragment {
     private DatabaseReference donor_ref;
     FirebaseAuth mAuth;
     private BloodRequestAdapter restAdapter;
-    private List<CustomUserData> postLists;
+    private List<CustomUser> postLists;
     private ProgressDialog pd;
 
     public HomeView() {
