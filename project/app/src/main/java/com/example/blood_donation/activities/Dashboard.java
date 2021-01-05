@@ -20,6 +20,8 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.example.blood_donation.R;
+import com.example.blood_donation.fragments.AboutUs;
+import com.example.blood_donation.fragments.AchievementView;
 import com.example.blood_donation.model.User;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
@@ -161,7 +163,7 @@ public class Dashboard extends AppCompatActivity
 
         }
         else if (id == R.id.user_achiev) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentcontainer, new AchievmentsView()).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentcontainer, new AchievementView()).commit();
 
         }
         else if (id == R.id.logout) {
