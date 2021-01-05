@@ -166,19 +166,16 @@ public class AchievementView extends Fragment {
                                                 cur_month = calendar.get(Calendar.MONTH)+1;
                                                 cur_year = calendar.get(Calendar.YEAR);
 
-                                                yes.setOnClickListener(new View.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(View v) {
-                                                        db_ref.child(divisionList[getdiv])
-                                                                .child(bloodGroup[getbg])
-                                                                .child(mAuth.getCurrentUser().getUid())
-                                                                .child("LastDonate").setValue(cur_day+"/"+cur_month+"/"+cur_year);
-                                                        db_ref.child(divisionList[getdiv])
-                                                                .child(bloodGroup[getbg])
-                                                                .child(mAuth.getCurrentUser().getUid())
-                                                                .child("TotalDonate").setValue(donorData.getTotalDonate()+1);
-                                                        startActivity(new Intent(getActivity(), Dashboard.class));
-                                                    }
+                                                yes.setOnClickListener(v -> {
+                                                    db_ref.child(divisionList[getdiv])
+                                                            .child(bloodGroup[getbg])
+                                                            .child(mAuth.getCurrentUser().getUid())
+                                                            .child("LastDonate").setValue(cur_day+"/"+cur_month+"/"+cur_year);
+                                                    db_ref.child(divisionList[getdiv])
+                                                            .child(bloodGroup[getbg])
+                                                            .child(mAuth.getCurrentUser().getUid())
+                                                            .child("TotalDonate").setValue(donorData.getTotalDonate()+1);
+                                                    startActivity(new Intent(getActivity(), Dashboard.class));
                                                 });
                                             }
                                             else
