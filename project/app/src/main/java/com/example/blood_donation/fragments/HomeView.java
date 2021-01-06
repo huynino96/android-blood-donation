@@ -35,9 +35,6 @@ import java.util.List;
 
 public class HomeView extends Fragment {
 
-    private View view;
-    private RecyclerView recentPosts;
-
     private DatabaseReference donor_ref;
     FirebaseAuth mAuth;
     private BloodRequestAdapter restAdapter;
@@ -51,8 +48,8 @@ public class HomeView extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        view = inflater.inflate(R.layout.home_view_fragment, container, false);
-        recentPosts = (RecyclerView) view.findViewById(R.id.recyleposts);
+        View view = inflater.inflate(R.layout.home_view_fragment, container, false);
+        RecyclerView recentPosts = (RecyclerView) view.findViewById(R.id.recyleposts);
 
         recentPosts.setLayoutManager(new LinearLayoutManager(getContext()));
 

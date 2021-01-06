@@ -33,7 +33,9 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.Calendar;
 import java.util.TimeZone;
 
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor
 public class AchievementView extends Fragment {
 
     private int cur_day, cur_month, cur_year, day, month, year, today;
@@ -51,9 +53,9 @@ public class AchievementView extends Fragment {
     private Button yes;
     private LinearLayout yesNo;
 
-    public AchievementView() {
-
-    }
+//    public AchievementView() {
+//
+//    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

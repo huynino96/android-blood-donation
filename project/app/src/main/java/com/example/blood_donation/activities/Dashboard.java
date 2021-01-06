@@ -24,6 +24,8 @@ import com.example.blood_donation.fragments.AboutUs;
 import com.example.blood_donation.fragments.AchievementView;
 import com.example.blood_donation.fragments.BloodInfo;
 import com.example.blood_donation.fragments.HomeView;
+import com.example.blood_donation.fragments.NearByHospitalActivity;
+import com.example.blood_donation.fragments.SearchDonor;
 import com.example.blood_donation.model.User;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
@@ -175,7 +177,7 @@ public class Dashboard extends AppCompatActivity
         }
         else if (id == R.id.blood_storage){
 
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentcontainer, new SearchDonorFragment()).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentcontainer, new SearchDonor()).commit();
 
         } else if (id == R.id.nearby_hospital) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentcontainer, new NearByHospitalActivity()).commit();
