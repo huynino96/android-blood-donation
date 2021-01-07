@@ -5,7 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 
-@NoArgsConstructor
+
 public class User {
     private String name;
     private String email;
@@ -14,6 +14,20 @@ public class User {
     private int gender;
     private int bloodGroup;
     private int division;
+
+    public User(){
+
+    }
+
+    public User(String name, String email, String phone, String address, int gender, int bloodGroup, int division) {
+        this.name = name;
+        this.email = email;
+        this.phone = phone;
+        this.address = address;
+        this.gender = gender;
+        this.bloodGroup = bloodGroup;
+        this.division = division;
+    }
 
     public String getName() {
         return name;
