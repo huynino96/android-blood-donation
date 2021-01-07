@@ -198,7 +198,8 @@ public class SignUp extends AppCompatActivity {
                                                 donor_ref.child(div).child(blood).child(id).child("Name").setValue(Name);
                                                 donor_ref.child(div).child(blood).child(id).child("Contact").setValue(Contact);
                                                 donor_ref.child(div).child(blood).child(id).child("Address").setValue(Address);
-
+                                                donor_ref.child(div).child(blood).child(id).child("Gender").setValue(Gender);
+                                                donor_ref.child(div).child(blood).child(id).child("Division").setValue(Division);
                                             }
 
                                             Toast.makeText(getApplicationContext(), "Welcome, your account has been created!", Toast.LENGTH_LONG)
