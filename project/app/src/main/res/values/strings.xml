@@ -4,6 +4,14 @@
     <string name="home">Home</string>
     <string name="profile">Profile</string>
     <string name="achiev">Achievements</string>
+    <string name="gender">Gender:</string>
+    <string name="name">Name:</string>
+    <string name="blood_group">Blood Group:</string>
+    <string name="contact_no">Contact No:</string>
+    <string name="address">Address:</string>
+    <string name="division">Division:</string>
+    <string name="mark_this_to_be_a_donor">Mark this to be a donor</string>
+
 
     <!-- Strings related to login -->
     <string name="signup">Register</string>

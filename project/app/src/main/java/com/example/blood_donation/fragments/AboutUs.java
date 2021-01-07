@@ -16,7 +16,6 @@ import com.example.blood_donation.R;
 
 
 public class AboutUs extends Fragment {
-    private TextView textView;
 
     @Nullable
     @Override
@@ -24,7 +23,7 @@ public class AboutUs extends Fragment {
         View view = inflater.inflate(R.layout.aboutus, container, false);
         getActivity().setTitle("About us");
 
-        textView = view.findViewById(R.id.txtv);
+        TextView textView = view.findViewById(R.id.txtv);
         Linkify.addLinks(textView, Linkify.ALL);
         return  view;
     }
