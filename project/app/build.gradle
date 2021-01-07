@@ -1,19 +1,14 @@
-plugins {
-    id 'com.android.application'
-    id 'com.google.gms.google-services'
-}
+apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 28
-
     defaultConfig {
-        applicationId "com.example.blood_donation"
+        applicationId "com.android.iunoob.bloodbank"
         minSdkVersion 17
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
-
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
     }
     lintOptions {
@@ -22,7 +17,7 @@ android {
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
     compileOptions {
@@ -33,10 +28,6 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'com.google.firebase:firebase-auth:20.0.1'
-    implementation 'com.google.firebase:firebase-core:18.0.0'
-    implementation 'com.google.firebase:firebase-database:19.6.0'
-    implementation 'com.android.support:multidex:1.0.3'
 
 
     compileOnly 'org.projectlombok:lombok:1.18.16'
@@ -48,10 +39,14 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
+    implementation 'com.google.firebase:firebase-core:16.0.4'
+    implementation 'com.google.firebase:firebase-database:16.0.3'
+    implementation 'com.google.firebase:firebase-auth:16.0.5'
+    implementation 'com.android.support:multidex:1.0.3'
+
     implementation 'com.google.android.gms:play-services-maps:16.0.0'
     implementation 'com.google.android.gms:play-services-location:16.0.0'
     implementation 'com.google.android.gms:play-services-places:16.0.0'
-    implementation 'com.google.android.gms:play-services-base:16.0.1'
-
 }
+
 apply plugin: 'com.google.gms.google-services'
