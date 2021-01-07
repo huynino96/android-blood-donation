@@ -222,7 +222,7 @@ public class NearByHospitalActivity extends Fragment implements
     public void ShowHospitals(double latitude, double longitude)
     {
         mMap.clear();
-        Object dataTransfer[] = new Object[2];
+        Object[] dataTransfer = new Object[2];
         GetNearbyLocation getNearbyLocation = new GetNearbyLocation();
         String url = getUrl(latitude, longitude, "hospital");
         dataTransfer[0] = mMap;

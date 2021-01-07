@@ -35,11 +35,10 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation 'com.google.firebase:firebase-core:16.0.4'
-    implementation 'com.google.firebase:firebase-database:16.0.3'
-    implementation 'com.google.firebase:firebase-auth:16.0.5'
+    implementation 'com.google.firebase:firebase-database:19.6.0'
+    //implementation 'com.google.firebase:firebase-auth:16.0.5'
     implementation 'com.android.support:multidex:1.0.3'
-    //implementation 'com.google.firebase:firebase-auth:20.0.1'
-
+    implementation 'com.google.firebase:firebase-auth:20.0.1'
 
     compileOnly 'org.projectlombok:lombok:1.18.16'
     annotationProcessor 'org.projectlombok:lombok:1.18.16'

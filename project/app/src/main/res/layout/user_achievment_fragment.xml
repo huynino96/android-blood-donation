@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:scrollbarStyle="outsideOverlay"
     android:background="@drawable/red_button_bg"
-    tools:context=".fragments.AchievmentsView">
+    tools:context=".fragments.AchievementView">
 
     <TextView
         android:gravity="center"

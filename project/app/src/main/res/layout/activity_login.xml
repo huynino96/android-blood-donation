@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@drawable/red_button_bg"
-    tools:context=".activities.LoginActivity">
+    tools:context=".activities.Login">
 
     <LinearLayout
         android:padding="10dp"

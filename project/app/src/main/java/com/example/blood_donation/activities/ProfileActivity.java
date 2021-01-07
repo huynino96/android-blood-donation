@@ -161,7 +161,7 @@ public class ProfileActivity extends AppCompatActivity {
                 if (Name.length() <= 2) {
                     ShowError("Name");
                     fullName.requestFocusFromTouch();
-                } else if (Contact.length() < 11) {
+                } else if (Contact.length() < 10) {
                     ShowError("Contact Number");
                     contact.requestFocusFromTouch();
                 } else if (Address.length() <= 2) {
