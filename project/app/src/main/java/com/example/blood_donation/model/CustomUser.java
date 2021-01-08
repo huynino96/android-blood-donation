@@ -2,88 +2,79 @@ package com.example.blood_donation.model;
 
 import java.io.Serializable;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
-
 public class CustomUser implements Serializable {
-    private String address;
-    private String division;
-    private String phone;
-    private String name;
-    private String bloodGroup;
-    private String time;
-    private String date;
+    private String Address, Division, Contact;
+    private String Name, BloodGroup;
+    private String Time, Date;
 
-    public CustomUser(){
+
+    public CustomUser() {
 
     }
 
-    public CustomUser(String address, String division, String phone, String name, String bloodGroup, String time, String date) {
-        this.address = address;
-        this.division = division;
-        this.phone = phone;
-        this.name = name;
-        this.bloodGroup = bloodGroup;
-        this.time = time;
-        this.date = date;
+    public CustomUser(String address, String division, String contact, String name, String bloodGroup, String time, String date) {
+        Address = address;
+        Division = division;
+        Contact = contact;
+        Name = name;
+        BloodGroup = bloodGroup;
+        Time = time;
+        Date = date;
     }
 
     public String getAddress() {
-        return address;
+        return Address;
     }
 
     public void setAddress(String address) {
-        this.address = address;
+        this.Address = address;
     }
 
     public String getDivision() {
-        return division;
+        return Division;
     }
 
     public void setDivision(String division) {
-        this.division = division;
+        this.Division = division;
     }
 
-    public String getPhone() {
-        return phone;
+    public String getContact() {
+        return Contact;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setContact(String contact) {
+        this.Contact = contact;
     }
 
     public String getName() {
-        return name;
+        return Name;
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.Name = name;
     }
 
     public String getBloodGroup() {
-        return bloodGroup;
+        return BloodGroup;
     }
 
     public void setBloodGroup(String bloodGroup) {
-        this.bloodGroup = bloodGroup;
+        this.BloodGroup = bloodGroup;
     }
 
     public String getTime() {
-        return time;
+        return Time;
     }
 
     public void setTime(String time) {
-        this.time = time;
+        this.Time = time;
     }
 
     public String getDate() {
-        return date;
+        return Date;
     }
 
     public void setDate(String date) {
-        this.date = date;
+        this.Date = date;
     }
 }

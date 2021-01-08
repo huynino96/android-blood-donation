@@ -1,6 +1,5 @@
 package com.example.blood_donation.adapters;
 
-import android.annotation.SuppressLint;
 import android.graphics.Color;
 
 import android.view.LayoutInflater;
@@ -17,6 +16,7 @@ import com.example.blood_donation.model.CustomUser;
 import java.util.List;
 
 
+
 public class BloodRequestAdapter extends RecyclerView.Adapter<BloodRequestAdapter.PostHolder> {
 
 
@@ -27,7 +27,6 @@ public class BloodRequestAdapter extends RecyclerView.Adapter<BloodRequestAdapte
         TextView Name, bloodgroup, Address, contact, posted;
 
         public PostHolder(@NonNull View itemView) {
-
             super(itemView);
 
             Name = itemView.findViewById(R.id.reqstUser);
@@ -44,7 +43,6 @@ public class BloodRequestAdapter extends RecyclerView.Adapter<BloodRequestAdapte
         this.postLists = postLists;
     }
 
-    @NonNull
     @Override
     public PostHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
 
@@ -54,9 +52,8 @@ public class BloodRequestAdapter extends RecyclerView.Adapter<BloodRequestAdapte
         return new PostHolder(listitem);
     }
 
-    @SuppressLint("SetTextI18n")
     @Override
-    public void onBindViewHolder(@NonNull PostHolder postHolder, int i) {
+    public void onBindViewHolder(PostHolder postHolder, int i) {
 
         if(i%2==0)
         {
@@ -72,7 +69,7 @@ public class BloodRequestAdapter extends RecyclerView.Adapter<BloodRequestAdapte
         postHolder.Address.setText("From: "+customUserData.getAddress()+", "+customUserData.getDivision());
         postHolder.bloodgroup.setText("Needs "+customUserData.getBloodGroup());
         postHolder.posted.setText("Posted on:"+customUserData.getTime()+", "+customUserData.getDate());
-        postHolder.contact.setText(customUserData.getPhone());
+        postHolder.contact.setText(customUserData.getContact());
 
     }
 
