@@ -69,7 +69,7 @@ public class SearchDonorAdapter extends RecyclerView.Adapter<SearchDonorAdapter.
         }
         Donor donorData = postLists.get(i);
         postHolder.Name.setText("Name: "+donorData.getName());
-        postHolder.contact.setText(donorData.getPhone());
+        postHolder.contact.setText(donorData.getContact());
         postHolder.Address.setText("Address: "+donorData.getAddress());
         postHolder.totaldonate.setText("Total Donation: "+donorData.getTotalDonate()+" times");
         postHolder.posted.setText("Last Donation: "+donorData.getLastDonate());

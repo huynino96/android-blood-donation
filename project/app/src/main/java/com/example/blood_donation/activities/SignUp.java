@@ -92,7 +92,7 @@ public class SignUp extends AppCompatActivity {
                         fullName.setText(userData.getName());
                         gender.setSelection(userData.getGender());
                         address.setText(userData.getAddress());
-                        phone.setText(userData.getPhone());
+                        phone.setText(userData.getContact());
                         bloodGroup.setSelection(userData.getBloodGroup());
                         division.setSelection(userData.getDivision());
                         Query donor = donor_ref.child(division.getSelectedItem().toString())

@@ -98,7 +98,7 @@ public class ProfileActivity extends AppCompatActivity {
                         fullName.setText(userData.getName());
                         gender.setSelection(userData.getGender());
                         address.setText(userData.getAddress());
-                        contact.setText(userData.getPhone());
+                        contact.setText(userData.getContact());
                         bloodGroup.setSelection(userData.getBloodGroup());
                         division.setSelection(userData.getDivision());
                         Query donor = donor_ref.child(division.getSelectedItem().toString())

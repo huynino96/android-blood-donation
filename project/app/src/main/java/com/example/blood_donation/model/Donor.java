@@ -7,55 +7,38 @@ import lombok.Setter;
 
 
 public class Donor {
-    private int totalDonate;
-    private String lastDonate;
-    private String name;
-    private String phone;
-    private String UID;
-    private String address;
 
-    public Donor(){
+    private int TotalDonate;
+    private String LastDonate, Name, Contact, UID, Address;
+
+
+    public Donor() {
 
     }
-    public Donor(int totalDonate, String lastDonate, String name, String phone, String UID, String address) {
-        this.totalDonate = totalDonate;
-        this.lastDonate = lastDonate;
-        this.name = name;
-        this.phone = phone;
+
+    public Donor(int totalDonate, String lastDonate, String Name, String Contact, String Address, String UID) {
+        this.TotalDonate = totalDonate;
+        this.LastDonate = lastDonate;
+        this.Name = Name;
+        this.Contact = Contact;
         this.UID = UID;
-        this.address = address;
+        this.Address = Address;
     }
 
     public int getTotalDonate() {
-        return totalDonate;
+        return TotalDonate;
     }
 
     public void setTotalDonate(int totalDonate) {
-        this.totalDonate = totalDonate;
+        this.TotalDonate = totalDonate;
     }
 
     public String getLastDonate() {
-        return lastDonate;
+        return LastDonate;
     }
 
     public void setLastDonate(String lastDonate) {
-        this.lastDonate = lastDonate;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
+        this.LastDonate = lastDonate;
     }
 
     public String getUID() {
@@ -66,11 +49,27 @@ public class Donor {
         this.UID = UID;
     }
 
+    public String getName() {
+        return Name;
+    }
+
+    public void setDonorName(String donorName) {
+        this.Name = Name;
+    }
+
+    public String getContact() {
+        return Contact;
+    }
+
+    public void setContact(String donorContact) {
+        this.Contact = Contact;
+    }
+
     public String getAddress() {
-        return address;
+        return Address;
     }
 
     public void setAddress(String address) {
-        this.address = address;
+        Address = address;
     }
 }
