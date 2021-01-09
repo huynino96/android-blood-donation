@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -34,7 +35,7 @@ public class PostActivity extends AppCompatActivity {
 
     EditText text1, text2;
     Spinner spinner1, spinner2;
-    Button buttonPost;
+    Button btnpost;
 
     FirebaseDatabase fdb;
     DatabaseReference db_ref;
@@ -63,7 +64,7 @@ public class PostActivity extends AppCompatActivity {
         spinner1 = findViewById(R.id.SpinnerBlood);
         spinner2 = findViewById(R.id.SpinnerDivision);
 
-        buttonPost = findViewById(R.id.postbtn);
+        btnpost = findViewById(R.id.postbtn);
 
         cal = Calendar.getInstance();
 
@@ -77,7 +78,7 @@ public class PostActivity extends AppCompatActivity {
         Date = "";
         String ampm="AM";
 
-        if(cal.get(Calendar.AM_PM) == Calendar.PM)
+        if(cal.get(Calendar.AM_PM) ==1)
         {
             ampm = "PM";
         }
@@ -112,7 +113,7 @@ public class PostActivity extends AppCompatActivity {
         db_ref = fdb.getReference("posts");
 
         try {
-            buttonPost.setOnClickListener(v -> {
+            btnpost.setOnClickListener(v -> {
                 pd.show();
                 final Query findname = fdb.getReference("users").child(uid);
 
@@ -133,7 +134,7 @@ public class PostActivity extends AppCompatActivity {
 
                             if (dataSnapshot.exists()) {
                                 db_ref.child(uid).child("Name").setValue(dataSnapshot.getValue(User.class).getName());
-                                db_ref.child(uid).child("Phone").setValue(text1.getText().toString());
+                                db_ref.child(uid).child("Contact").setValue(text1.getText().toString());
                                 db_ref.child(uid).child("Address").setValue(text2.getText().toString());
                                 db_ref.child(uid).child("Division").setValue(spinner2.getSelectedItem().toString());
                                 db_ref.child(uid).child("BloodGroup").setValue(spinner1.getSelectedItem().toString());
@@ -144,7 +145,7 @@ public class PostActivity extends AppCompatActivity {
                                 startActivity(new Intent(PostActivity.this, Dashboard.class));
 
                             } else {
-                                Toast.makeText(getApplicationContext(), "Database error!!!",
+                                Toast.makeText(getApplicationContext(), "Database error.",
                                         Toast.LENGTH_LONG).show();
                             }
 

@@ -1,5 +1,6 @@
 package com.example.blood_donation.adapters;
 
+import android.annotation.SuppressLint;
 import android.graphics.Color;
 
 import android.view.LayoutInflater;
@@ -22,7 +23,7 @@ public class BloodRequestAdapter extends RecyclerView.Adapter<BloodRequestAdapte
 
     private List<CustomUser> postLists;
 
-    public class PostHolder extends RecyclerView.ViewHolder
+    public static class PostHolder extends RecyclerView.ViewHolder
     {
         TextView Name, bloodgroup, Address, contact, posted;
 
@@ -43,6 +44,7 @@ public class BloodRequestAdapter extends RecyclerView.Adapter<BloodRequestAdapte
         this.postLists = postLists;
     }
 
+    @NonNull
     @Override
     public PostHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
 
@@ -52,8 +54,9 @@ public class BloodRequestAdapter extends RecyclerView.Adapter<BloodRequestAdapte
         return new PostHolder(listitem);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
-    public void onBindViewHolder(PostHolder postHolder, int i) {
+    public void onBindViewHolder(@NonNull PostHolder postHolder, int i) {
 
         if(i%2==0)
         {
