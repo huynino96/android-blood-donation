@@ -1,6 +1,12 @@
 package com.example.blood_donation.fragments;
 
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import android.util.Log;
@@ -36,7 +42,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class SearchDonor extends Fragment {
+public class SearchDonor extends Fragment implements SearchDonorAdapter.OnSearchDonorListener{
 
     private View view;
 
@@ -49,12 +55,12 @@ public class SearchDonor extends Fragment {
     Button btnSearch;
     ProgressDialog pd;
     List<Donor> donorItem;
+
     private RecyclerView recyclerView;
 
     private SearchDonorAdapter sdadapter;
 
     public SearchDonor() {
-
     }
 
     @Nullable
@@ -84,7 +90,7 @@ public class SearchDonor extends Fragment {
             pd.show();
             donorItem = new ArrayList<>();
             donorItem.clear();
-            sdadapter = new SearchDonorAdapter(donorItem);
+            sdadapter = new SearchDonorAdapter(donorItem, this);
             recyclerView = (RecyclerView) view.findViewById(R.id.showDonorList);
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
             RecyclerView.LayoutManager searchDonor = new LinearLayoutManager(getContext());
@@ -126,4 +132,26 @@ public class SearchDonor extends Fragment {
         return view;
     }
 
+    @Override
+    public void OnSearchDonorClick(int position) {
+        Donor donor = donorItem.get(position);
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setMessage("Call "+ donor.getContact() + "?")
+                .setPositiveButton("Call", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        Intent callIntent = new Intent(Intent.ACTION_DIAL);
+                        callIntent.setData(Uri.parse("tel:"+donor.getContact()));startActivity(callIntent);
+                        dialog.cancel();
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // User cancelled the dialog
+                        dialog.cancel();
+                    }
+                });
+        // Create the AlertDialog object and return it
+        builder.create();
+        builder.show();
+    }
 }

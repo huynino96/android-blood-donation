@@ -20,6 +20,7 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.example.blood_donation.R;
+import com.example.blood_donation.adapters.SearchDonorAdapter;
 import com.example.blood_donation.fragments.AboutUs;
 import com.example.blood_donation.fragments.AchievementView;
 import com.example.blood_donation.fragments.BloodInfo;

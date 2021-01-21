@@ -20,15 +20,14 @@ import java.util.List;
 
 
 public class SearchDonorAdapter extends RecyclerView.Adapter<SearchDonorAdapter.PostHolder> {
-
-
     private List<Donor> postLists;
+    private OnSearchDonorListener mDonorListener;
 
-    public class PostHolder extends RecyclerView.ViewHolder
+    public class PostHolder extends RecyclerView.ViewHolder implements View.OnClickListener
     {
         TextView Name, Address, contact, posted, totaldonate;
-
-        public PostHolder(@NonNull View itemView) {
+        OnSearchDonorListener donorListener;
+        public PostHolder(@NonNull View itemView, OnSearchDonorListener donorListener) {
             super(itemView);
 
             Name = itemView.findViewById(R.id.donorName);
@@ -37,12 +36,21 @@ public class SearchDonorAdapter extends RecyclerView.Adapter<SearchDonorAdapter.
             Address = itemView.findViewById(R.id.donorAddress);
             posted = itemView.findViewById(R.id.lastdonate);
 
+            this.donorListener = donorListener;
+
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            this.donorListener.OnSearchDonorClick(getAdapterPosition());
         }
     }
 
-    public SearchDonorAdapter(List<Donor> postLists)
+    public SearchDonorAdapter(List<Donor> postLists,  OnSearchDonorListener donorListener)
     {
         this.postLists = postLists;
+        this.mDonorListener = donorListener;
     }
 
     @NonNull
@@ -52,7 +60,7 @@ public class SearchDonorAdapter extends RecyclerView.Adapter<SearchDonorAdapter.
         View listItem = LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.search_donor_item, viewGroup, false);
 
-        return new PostHolder(listItem);
+        return new PostHolder(listItem, mDonorListener);
     }
 
     @SuppressLint("SetTextI18n")
@@ -80,5 +88,9 @@ public class SearchDonorAdapter extends RecyclerView.Adapter<SearchDonorAdapter.
     @Override
     public int getItemCount() {
         return postLists.size();
+    }
+
+    public interface OnSearchDonorListener{
+        void OnSearchDonorClick(int position);
     }
 }
