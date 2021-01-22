@@ -55,9 +55,8 @@ public class Dashboard extends AppCompatActivity
     private TextView getUserName;
     private TextView getUserEmail;
     private FirebaseUser cur_user;
-
+    private FloatingActionButton fab;
     private ProgressDialog pd;
-    private AirPlaneModeReceiver airPlaneModeReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,7 +88,7 @@ public class Dashboard extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+         fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(view -> startActivity(new Intent(Dashboard.this, PostActivity.class)));
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -104,7 +103,6 @@ public class Dashboard extends AppCompatActivity
 
         getUserEmail = (TextView) header.findViewById(R.id.UserEmailView);
         getUserName = (TextView) header.findViewById(R.id.UserNameView);
-
         Query singleUser = userdb_ref.child(cur_user.getUid());
         pd.show();
         singleUser.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -144,9 +142,7 @@ public class Dashboard extends AppCompatActivity
             Toast.makeText(getApplicationContext(), "Internet is connected", Toast.LENGTH_LONG).show();
         } else {
             Toast.makeText(getApplicationContext(), "There is no internet connection", Toast.LENGTH_LONG).show();
-            airPlaneModeReceiver = new AirPlaneModeReceiver();
-            IntentFilter filter = new IntentFilter("android.intent.action.AIRPLANE_MODE");
-            registerReceiver(airPlaneModeReceiver, filter);
+
         }
     }
 
@@ -192,6 +188,7 @@ public class Dashboard extends AppCompatActivity
 
         if (id == R.id.home) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentcontainer, new HomeView()).commit();
+            fab.setVisibility(View.VISIBLE);
 
         } else if (id == R.id.userprofile) {
             startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
@@ -212,7 +209,7 @@ public class Dashboard extends AppCompatActivity
 
         } else if (id == R.id.nearby_hospital) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentcontainer, new NearByHospitalActivity()).commit();
-
+            fab.setVisibility(View.INVISIBLE);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -255,7 +252,6 @@ public class Dashboard extends AppCompatActivity
     @Override
     protected void onStop() {
         super.onStop();
-        unregisterReceiver(airPlaneModeReceiver);
     }
 
 }
