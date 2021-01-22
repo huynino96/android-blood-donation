@@ -3,6 +3,7 @@ package com.example.blood_donation.activities;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.blood_donation.R;
+import com.example.blood_donation.broadcast.AirPlaneModeReceiver;
 import com.example.blood_donation.broadcast.MyApplication;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -22,6 +24,7 @@ public class Login extends AppCompatActivity {
     private EditText inputEmail, inputPassword;
     private FirebaseAuth mAuth;
     private ProgressDialog pd;
+    private AirPlaneModeReceiver airPlaneModeReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +37,11 @@ public class Login extends AppCompatActivity {
         pd.setCanceledOnTouchOutside(false);
 
         mAuth = FirebaseAuth.getInstance();
+
+        airPlaneModeReceiver = new AirPlaneModeReceiver();
+
+        IntentFilter filter = new IntentFilter("android.intent.action.AIRPLANE_MODE");
+        registerReceiver(airPlaneModeReceiver, filter);
 
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
@@ -130,5 +138,9 @@ public class Login extends AppCompatActivity {
         MyApplication.activityResumed();// On Resume notify the Application
     }
 
-
+    @Override
+    protected void onStop() {
+        super.onStop();
+        unregisterReceiver(airPlaneModeReceiver);
+    }
 }

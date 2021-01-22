@@ -3,6 +3,7 @@ package com.example.blood_donation.activities;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -25,6 +26,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.example.blood_donation.R;
 import com.example.blood_donation.adapters.SearchDonorAdapter;
+import com.example.blood_donation.broadcast.AirPlaneModeReceiver;
 import com.example.blood_donation.broadcast.MyApplication;
 import com.example.blood_donation.fragments.AboutUs;
 import com.example.blood_donation.fragments.AchievementView;
@@ -55,11 +57,14 @@ public class Dashboard extends AppCompatActivity
     private FirebaseUser cur_user;
 
     private ProgressDialog pd;
+    private AirPlaneModeReceiver airPlaneModeReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
+
+
 
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
@@ -139,6 +144,9 @@ public class Dashboard extends AppCompatActivity
             Toast.makeText(getApplicationContext(), "Internet is connected", Toast.LENGTH_LONG).show();
         } else {
             Toast.makeText(getApplicationContext(), "There is no internet connection", Toast.LENGTH_LONG).show();
+            airPlaneModeReceiver = new AirPlaneModeReceiver();
+            IntentFilter filter = new IntentFilter("android.intent.action.AIRPLANE_MODE");
+            registerReceiver(airPlaneModeReceiver, filter);
         }
     }
 
@@ -242,6 +250,12 @@ public class Dashboard extends AppCompatActivity
             startActivity(intent);
             finish();
         }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        unregisterReceiver(airPlaneModeReceiver);
     }
 
 }
