@@ -9,8 +9,10 @@ import android.os.Bundle;
 
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Toast;
 
 
@@ -36,6 +38,7 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.SettingsClient;
 
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -45,7 +48,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
-
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 
 public class NearByHospitalActivity extends Fragment implements
@@ -56,9 +59,8 @@ public class NearByHospitalActivity extends Fragment implements
     private GoogleApiClient client;
     Location lastLocation;
     private static final int Permission_Request = 99;
-    int PROXIMITY_RADIUS = 10000;
+    int PROXIMITY_RADIUS = 1000;
     private FusedLocationProviderClient fusedLocationProviderClient;
-
 
     @Nullable
     @Override
@@ -117,9 +119,11 @@ public class NearByHospitalActivity extends Fragment implements
         if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             buildGoogleApiClient();
             mMap.setMyLocationEnabled(true);
-            mMap.setTrafficEnabled(true);
+//            mMap.setTrafficEnabled(true);
 
         }
+        mMap.getUiSettings().setZoomControlsEnabled(true);
+
 
     }
 
@@ -164,7 +168,7 @@ public class NearByHospitalActivity extends Fragment implements
         googlePlaceUrl.append("&radius=").append(PROXIMITY_RADIUS);
         googlePlaceUrl.append("&type=").append(nearbyPlace);
         googlePlaceUrl.append("&sensor=true");
-        googlePlaceUrl.append("&key=" + "AIzaSyAmeQ8IwQWBcmFLRpKARu7LM1TlShQKmfg");
+        googlePlaceUrl.append("&key=" + "AIzaSyCKU2tDG3mIREWPRkglPD1Jv8dsTmLM0Go");
 
         Log.d("NearbyHospitalActivity", "url = " + googlePlaceUrl.toString());
 
@@ -203,9 +207,10 @@ public class NearByHospitalActivity extends Fragment implements
         markerOptions.position(latLng);
         markerOptions.title("Current Location");
         markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
-        Marker currentLocationmMarker = mMap.addMarker(markerOptions);
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-        mMap.animateCamera(CameraUpdateFactory.zoomBy(0));
+        Marker currentLocationMarker = mMap.addMarker(markerOptions);
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 16f);
+        mMap.animateCamera(cameraUpdate);
+
 
     }
 
@@ -231,4 +236,5 @@ public class NearByHospitalActivity extends Fragment implements
         getNearbyLocation.execute(dataTransfer);
         Toast.makeText(getContext(), "Showing Nearby Hospitals", Toast.LENGTH_SHORT).show();
     }
+
 }

@@ -1,7 +1,11 @@
 package com.example.blood_donation.activities;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 
 import android.util.Log;
@@ -10,6 +14,7 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import androidx.annotation.NonNull;
@@ -21,6 +26,8 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.example.blood_donation.R;
 import com.example.blood_donation.adapters.SearchDonorAdapter;
+import com.example.blood_donation.broadcast.AirPlaneModeReceiver;
+import com.example.blood_donation.broadcast.MyApplication;
 import com.example.blood_donation.fragments.AboutUs;
 import com.example.blood_donation.fragments.AchievementView;
 import com.example.blood_donation.fragments.BloodInfo;
@@ -48,13 +55,23 @@ public class Dashboard extends AppCompatActivity
     private TextView getUserName;
     private TextView getUserEmail;
     private FirebaseUser cur_user;
-
+    private FloatingActionButton fab;
     private ProgressDialog pd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
+
+
+
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        if (networkInfo != null && networkInfo.isConnected()) {
+            changeTextStatus(true);
+        } else {
+            changeTextStatus(false);
+        }
 
         pd = new ProgressDialog(this);
         pd.setMessage("Loading...");
@@ -71,7 +88,7 @@ public class Dashboard extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+         fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(view -> startActivity(new Intent(Dashboard.this, PostActivity.class)));
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -86,7 +103,6 @@ public class Dashboard extends AppCompatActivity
 
         getUserEmail = (TextView) header.findViewById(R.id.UserEmailView);
         getUserName = (TextView) header.findViewById(R.id.UserNameView);
-
         Query singleUser = userdb_ref.child(cur_user.getUid());
         pd.show();
         singleUser.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -117,6 +133,17 @@ public class Dashboard extends AppCompatActivity
 
         }
 
+    }
+
+    public void changeTextStatus(boolean isConnected) {
+
+        // Change status according to boolean value
+        if (isConnected) {
+            Toast.makeText(getApplicationContext(), "Internet is connected", Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(getApplicationContext(), "There is no internet connection", Toast.LENGTH_LONG).show();
+
+        }
     }
 
 
@@ -161,6 +188,7 @@ public class Dashboard extends AppCompatActivity
 
         if (id == R.id.home) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentcontainer, new HomeView()).commit();
+            fab.setVisibility(View.VISIBLE);
 
         } else if (id == R.id.userprofile) {
             startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
@@ -181,7 +209,7 @@ public class Dashboard extends AppCompatActivity
 
         } else if (id == R.id.nearby_hospital) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentcontainer, new NearByHospitalActivity()).commit();
-
+            fab.setVisibility(View.INVISIBLE);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -202,8 +230,16 @@ public class Dashboard extends AppCompatActivity
     }
 
     @Override
+    protected void onPause() {
+
+        super.onPause();
+        MyApplication.activityPaused();// On Pause notify the Application
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
+        MyApplication.activityResumed();// On Resume notify the Application
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if(currentUser == null)
         {
@@ -211,6 +247,11 @@ public class Dashboard extends AppCompatActivity
             startActivity(intent);
             finish();
         }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
     }
 
 }

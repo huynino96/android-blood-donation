@@ -2,6 +2,7 @@ package com.example.blood_donation.model;
 
 import android.os.AsyncTask;
 
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -62,8 +63,8 @@ public class GetNearbyLocation extends AsyncTask<Object, String, String> {
             markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
 
             mMap.addMarker(markerOptions);
-            mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-            mMap.animateCamera(CameraUpdateFactory.zoomBy(10));
+            CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 16f);
+            mMap.animateCamera(cameraUpdate);
         }
     }
 }

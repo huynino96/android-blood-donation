@@ -1,7 +1,11 @@
 package com.example.blood_donation.activities;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
@@ -11,6 +15,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.blood_donation.R;
+import com.example.blood_donation.broadcast.AirPlaneModeReceiver;
+import com.example.blood_donation.broadcast.MyApplication;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class Login extends AppCompatActivity {
@@ -18,6 +24,7 @@ public class Login extends AppCompatActivity {
     private EditText inputEmail, inputPassword;
     private FirebaseAuth mAuth;
     private ProgressDialog pd;
+    private AirPlaneModeReceiver airPlaneModeReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +37,20 @@ public class Login extends AppCompatActivity {
         pd.setCanceledOnTouchOutside(false);
 
         mAuth = FirebaseAuth.getInstance();
+
+        airPlaneModeReceiver = new AirPlaneModeReceiver();
+
+        IntentFilter filter = new IntentFilter("android.intent.action.AIRPLANE_MODE");
+        registerReceiver(airPlaneModeReceiver, filter);
+
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        if (networkInfo != null && networkInfo.isConnected()) {
+            changeTextStatus(true);
+        } else {
+            changeTextStatus(false);
+        }
+
 
         if(mAuth.getCurrentUser() != null)
         {
@@ -93,4 +114,33 @@ public class Login extends AppCompatActivity {
 
     }
 
+    public void changeTextStatus(boolean isConnected) {
+
+        // Change status according to boolean value
+        if (isConnected) {
+            Toast.makeText(getApplicationContext(), "Internet is connected", Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(getApplicationContext(), "There is no internet connection", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+
+        super.onPause();
+        MyApplication.activityPaused();// On Pause notify the Application
+    }
+
+    @Override
+    protected void onResume() {
+
+        super.onResume();
+        MyApplication.activityResumed();// On Resume notify the Application
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        unregisterReceiver(airPlaneModeReceiver);
+    }
 }

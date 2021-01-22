@@ -7,6 +7,7 @@ import android.os.Bundle;
 
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -240,6 +241,16 @@ public class AchievementView extends Fragment {
         }
 
         return view;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            pd.onBackPressed();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
 }
