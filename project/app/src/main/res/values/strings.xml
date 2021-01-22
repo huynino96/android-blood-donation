@@ -68,6 +68,7 @@
     <string name="male_">If you are male, you must:\nBe healthy and feeling well\nBe at least 18 years old to 60 years old\nBe at least weigh at least 45kg.</string>
     <string name="info_">Giving blood saves lives</string>
     <string name="aboutus">This is blood donation project</string>
+    <string name="StatDo">Statistics Donor</string>
 
 
 </resources>

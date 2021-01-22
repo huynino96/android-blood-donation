@@ -2,7 +2,7 @@ package com.example.blood_donation.model;
 
 public class User {
 
-    private String Name, Email, Contact, Address;
+    private String Name, Email, Contact, Address, Role;
     private int Gender, BloodGroup, Division;
 
     public User() {
@@ -63,5 +63,7 @@ public class User {
         this.Gender = gender;
     }
 
-
+    public String getRole() {
+        return Role;
+    }
 }

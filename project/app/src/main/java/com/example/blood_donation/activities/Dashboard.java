@@ -63,8 +63,6 @@ public class Dashboard extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
 
-
-
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
         if (networkInfo != null && networkInfo.isConnected()) {
@@ -85,11 +83,48 @@ public class Dashboard extends AppCompatActivity
 
         getUserEmail = findViewById(R.id.UserEmailView);
         getUserName = findViewById(R.id.UserNameView);
+
+        fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(view -> startActivity(new Intent(Dashboard.this, PostActivity.class)));
+
+        Query singleUser = userdb_ref.child(cur_user.getUid());
+        pd.show();
+
+        setUpDrawer(savedInstanceState);
+
+        singleUser.addListenerForSingleValueEvent(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                //pd.show();
+                User user =  dataSnapshot.getValue(User.class);
+                String name = user.getName();
+                getUserName.setText(name);
+                getUserEmail.setText(cur_user.getEmail());
+                //If admin show the admin site
+                if (user.getRole() != null){
+                    if (user.getRole().equals("admin")){
+                        setContentView(R.layout.activity_admin);
+                        setUpDrawer(savedInstanceState);
+                    }
+                }
+                pd.dismiss();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.d("User", databaseError.getMessage());
+
+            }
+        });
+
+
+
+    }
+
+    private void setUpDrawer(Bundle savedInstanceState){
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-         fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(view -> startActivity(new Intent(Dashboard.this, PostActivity.class)));
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -103,28 +138,6 @@ public class Dashboard extends AppCompatActivity
 
         getUserEmail = (TextView) header.findViewById(R.id.UserEmailView);
         getUserName = (TextView) header.findViewById(R.id.UserNameView);
-        Query singleUser = userdb_ref.child(cur_user.getUid());
-        pd.show();
-        singleUser.addListenerForSingleValueEvent(new ValueEventListener() {
-
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                //pd.show();
-                String name = dataSnapshot.getValue(User.class).getName();
-
-                getUserName.setText(name);
-                getUserEmail.setText(cur_user.getEmail());
-
-                pd.dismiss();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.d("User", databaseError.getMessage());
-
-            }
-        });
-
 
         if(savedInstanceState == null)
         {
@@ -132,7 +145,6 @@ public class Dashboard extends AppCompatActivity
             navigationView.getMenu().getItem(0).setChecked(true);
 
         }
-
     }
 
     public void changeTextStatus(boolean isConnected) {

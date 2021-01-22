@@ -1,4 +1,4 @@
-package com.example.blood_donation;
+package com.example.blood_donation.broadcast;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
