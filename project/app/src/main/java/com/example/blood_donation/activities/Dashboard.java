@@ -3,7 +3,6 @@ package com.example.blood_donation.activities;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -25,8 +24,6 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.example.blood_donation.R;
-import com.example.blood_donation.adapters.SearchDonorAdapter;
-import com.example.blood_donation.broadcast.AirPlaneModeReceiver;
 import com.example.blood_donation.broadcast.MyApplication;
 import com.example.blood_donation.fragments.AboutUs;
 import com.example.blood_donation.fragments.AchievementView;
@@ -34,6 +31,7 @@ import com.example.blood_donation.fragments.BloodInfo;
 import com.example.blood_donation.fragments.HomeView;
 import com.example.blood_donation.fragments.NearByHospitalActivity;
 import com.example.blood_donation.fragments.SearchDonor;
+import com.example.blood_donation.fragments.UserList;
 import com.example.blood_donation.model.User;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
@@ -57,12 +55,14 @@ public class Dashboard extends AppCompatActivity
     private FirebaseUser cur_user;
     private FloatingActionButton fab;
     private ProgressDialog pd;
+    private Boolean isAdmin = false;
+    private Boolean roleAdmin = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_dashboard);
-
+        setContentView(R.layout.activity_admin);
+        
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
         if (networkInfo != null && networkInfo.isConnected()) {
@@ -84,9 +84,6 @@ public class Dashboard extends AppCompatActivity
         getUserEmail = findViewById(R.id.UserEmailView);
         getUserName = findViewById(R.id.UserNameView);
 
-        fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(view -> startActivity(new Intent(Dashboard.this, PostActivity.class)));
-
         Query singleUser = userdb_ref.child(cur_user.getUid());
         pd.show();
 
@@ -104,7 +101,8 @@ public class Dashboard extends AppCompatActivity
                 //If admin show the admin site
                 if (user.getRole() != null){
                     if (user.getRole().equals("admin")){
-                        setContentView(R.layout.activity_admin);
+                        isAdmin = true;
+                        roleAdmin = true;
                         setUpDrawer(savedInstanceState);
                     }
                 }
@@ -114,7 +112,6 @@ public class Dashboard extends AppCompatActivity
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 Log.d("User", databaseError.getMessage());
-
             }
         });
 
@@ -123,6 +120,19 @@ public class Dashboard extends AppCompatActivity
     }
 
     private void setUpDrawer(Bundle savedInstanceState){
+
+        if(savedInstanceState == null)
+        {
+            if (isAdmin && roleAdmin){
+                setContentView(R.layout.activity_admin);
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragmentcontainer, new UserList()).commit();
+            }
+            else {
+                setContentView(R.layout.activity_dashboard);
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragmentcontainer, new HomeView()).commit();
+            }
+        }
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -139,12 +149,8 @@ public class Dashboard extends AppCompatActivity
         getUserEmail = (TextView) header.findViewById(R.id.UserEmailView);
         getUserName = (TextView) header.findViewById(R.id.UserNameView);
 
-        if(savedInstanceState == null)
-        {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentcontainer, new HomeView()).commit();
-            navigationView.getMenu().getItem(0).setChecked(true);
+        navigationView.getMenu().getItem(0).setChecked(true);
 
-        }
     }
 
     public void changeTextStatus(boolean isConnected) {
@@ -173,6 +179,15 @@ public class Dashboard extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.dashboard, menu);
+        if (isAdmin){
+            menu.findItem(R.id.switchRole).setVisible(true);
+            if (roleAdmin){
+                menu.findItem(R.id.switchRole).setTitle("Switch to member");
+            }else {
+                menu.findItem(R.id.switchRole).setTitle("Switch to admin");
+
+            }
+        }
         return true;
     }
 
@@ -188,6 +203,10 @@ public class Dashboard extends AppCompatActivity
         }
         if (id == R.id.devinfo) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentcontainer, new AboutUs()).commit();
+        }
+        if (id == R.id.switchRole){
+            roleAdmin = !roleAdmin;
+            setUpDrawer(null);
         }
 
         return super.onOptionsItemSelected(item);
