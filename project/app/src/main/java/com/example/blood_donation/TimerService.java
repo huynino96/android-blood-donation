@@ -23,6 +23,7 @@ import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
 public class TimerService extends Service {
+    private static final String CHANNEL_ID = "1";
     private String lastDonate;
     private Date currentDate;
     private Date lastDonateDate;
@@ -79,10 +80,20 @@ public class TimerService extends Service {
     @Override
     public void onDestroy() {
         t.cancel();
+        sendNotification();
         Toast.makeText(this, "Cool down time has ended. You may proceed blood donating again", Toast.LENGTH_SHORT).show();
         super.onDestroy();
     }
 
+    private void sendNotification() {
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
+                .setSmallIcon(R.drawable.notification_icon)
+                .setContentTitle("Blood Point")
+                .setContentText("Cool down time has ended. You may proceed blood donating again")
+                .setStyle(new NotificationCompat.BigTextStyle()
+                        .bigText("Cool down has ended"))
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+    }
 
 
 }
