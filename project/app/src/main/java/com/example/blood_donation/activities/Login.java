@@ -90,6 +90,7 @@ public class Login extends AppCompatActivity {
                                             Toast.LENGTH_LONG).show();
                                     Log.v("error", task.getException().getMessage());
                                 } else {
+                                    Log.d("TAG", "onCreate: success" );
                                     onDefiningRole(mAuth.getCurrentUser());
                                 }
                                 pd.dismiss();

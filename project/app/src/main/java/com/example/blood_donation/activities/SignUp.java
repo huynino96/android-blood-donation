@@ -223,6 +223,7 @@ public class SignUp extends AppCompatActivity {
                         db_ref.child(id).child("BloodGroup").setValue(BloodGroup);
                         db_ref.child(id).child("Address").setValue(Address);
                         db_ref.child(id).child("Division").setValue(Division);
+                        db_ref.child(id).child("Role").setValue("member");
 
                         if(isDonor.isChecked())
                         {

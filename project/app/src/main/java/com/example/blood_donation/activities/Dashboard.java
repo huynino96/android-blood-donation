@@ -82,6 +82,14 @@ public class Dashboard extends AppCompatActivity
         getUserEmail = findViewById(R.id.UserEmailView);
         getUserName = findViewById(R.id.UserNameView);
 
+        fab = findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(Dashboard.this, PostActivity.class));
+            }
+        });
+
         Query singleUser = userdb_ref.child(cur_user.getUid());
         pd.show();
 
