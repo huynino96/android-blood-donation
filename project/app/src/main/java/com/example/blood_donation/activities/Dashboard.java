@@ -100,7 +100,6 @@ public class Dashboard extends AppCompatActivity
         });
 
         Query singleUser = userdb_ref.child(cur_user.getUid());
-        pd.show();
 
         singleUser.addListenerForSingleValueEvent(new ValueEventListener() {
 

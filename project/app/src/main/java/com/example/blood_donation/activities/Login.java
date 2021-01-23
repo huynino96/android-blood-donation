@@ -64,7 +64,6 @@ public class Login extends AppCompatActivity {
             changeTextStatus(false);
         }
 
-
         user = mAuth.getCurrentUser();
         if (user != null)
         {
@@ -79,22 +78,25 @@ public class Login extends AppCompatActivity {
             Button resetpass = findViewById(R.id.button_forgot_password);
 
             signin.setOnClickListener(v -> {
-
                 final String email = inputEmail.getText().toString()+"";
                 final String password = inputPassword.getText().toString()+"";
 
                 try {
                     if(password.length()>0 && email.length()>0) {
-
+                        pd.show();
                         mAuth.signInWithEmailAndPassword(email, password)
                                 .addOnCompleteListener(Login.this, task -> {
                                     if (!task.isSuccessful()) {
                                         Toast.makeText(getApplicationContext(),
                                                 "Authentication Failed",
                                                 Toast.LENGTH_LONG).show();
+                                        Log.d("TAG", "onCreate: "+ "failed");
                                         Log.v("error", task.getException().getMessage());
+                                        pd.dismiss();
                                     } else {
-                                        onDefiningRole(user);
+                                        pd.dismiss();
+                                        Log.d("TAG", "onCreate: "+ "success");
+                                        onDefiningRole(mAuth.getCurrentUser());
                                     }
                                 });
                     }
@@ -182,7 +184,6 @@ public class Login extends AppCompatActivity {
                                 finish();
                             }
                         }
-                        pd.dismiss();
                     }
                 }, 1000);
             }
