@@ -6,13 +6,16 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.blood_donation.R;
@@ -27,13 +30,15 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.tomer.fadingtextview.FadingTextView;
+
+import java.util.concurrent.TimeUnit;
 
 public class Login extends AppCompatActivity {
 
     private EditText inputEmail, inputPassword;
     private FirebaseAuth mAuth;
     private ProgressDialog pd;
-    private AirPlaneModeReceiver airPlaneModeReceiver;
     private FirebaseUser user;
 
     @Override
@@ -48,10 +53,8 @@ public class Login extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
-        airPlaneModeReceiver = new AirPlaneModeReceiver();
 
         IntentFilter filter = new IntentFilter("android.intent.action.AIRPLANE_MODE");
-        registerReceiver(airPlaneModeReceiver, filter);
 
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
@@ -67,58 +70,55 @@ public class Login extends AppCompatActivity {
         {
             onDefiningRole(user);
         }
+        else {
+            inputEmail = findViewById(R.id.input_username);
+            inputPassword = findViewById(R.id.input_password);
 
+            Button signin = findViewById(R.id.button_login);
+            Button signup = findViewById(R.id.button_register);
+            Button resetpass = findViewById(R.id.button_forgot_password);
 
-        inputEmail = findViewById(R.id.input_username);
-        inputPassword = findViewById(R.id.input_password);
+            signin.setOnClickListener(v -> {
 
-        Button signin = findViewById(R.id.button_login);
-        Button signup = findViewById(R.id.button_register);
-        Button resetpass = findViewById(R.id.button_forgot_password);
+                final String email = inputEmail.getText().toString()+"";
+                final String password = inputPassword.getText().toString()+"";
 
-        signin.setOnClickListener(v -> {
+                try {
+                    if(password.length()>0 && email.length()>0) {
 
-            final String email = inputEmail.getText().toString()+"";
-            final String password = inputPassword.getText().toString()+"";
+                        mAuth.signInWithEmailAndPassword(email, password)
+                                .addOnCompleteListener(Login.this, task -> {
+                                    if (!task.isSuccessful()) {
+                                        Toast.makeText(getApplicationContext(),
+                                                "Authentication Failed",
+                                                Toast.LENGTH_LONG).show();
+                                        Log.v("error", task.getException().getMessage());
+                                    } else {
+                                        onDefiningRole(user);
+                                    }
+                                });
+                    }
+                    else
+                    {
+                        Toast.makeText(getApplicationContext(), "Please fill all the field.", Toast.LENGTH_LONG).show();
+                    }
 
-            try {
-                if(password.length()>0 && email.length()>0) {
-
-                    mAuth.signInWithEmailAndPassword(email, password)
-                            .addOnCompleteListener(Login.this, task -> {
-                                if (!task.isSuccessful()) {
-                                    Toast.makeText(getApplicationContext(),
-                                            "Authentication Failed",
-                                            Toast.LENGTH_LONG).show();
-                                    Log.v("error", task.getException().getMessage());
-                                } else {
-                                    Log.d("TAG", "onCreate: success" );
-                                    onDefiningRole(user);
-                                }
-                            });
-                }
-                else
+                } catch (Exception e)
                 {
-                    Toast.makeText(getApplicationContext(), "Please fill all the field.", Toast.LENGTH_LONG).show();
+                    e.printStackTrace();
                 }
+            });
 
-            } catch (Exception e)
-            {
-                e.printStackTrace();
-            }
-        });
+            signup.setOnClickListener(v -> {
+                Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
+                startActivity(intent);
+            });
 
-        signup.setOnClickListener(v -> {
-            Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
-            startActivity(intent);
-        });
-
-        resetpass.setOnClickListener(v -> {
-            Intent intent = new Intent(getApplicationContext(), ResetPassActivity.class);
-            startActivity(intent);
-        });
-
-
+            resetpass.setOnClickListener(v -> {
+                Intent intent = new Intent(getApplicationContext(), ResetPassActivity.class);
+                startActivity(intent);
+            });
+        }
     }
 
     public void changeTextStatus(boolean isConnected) {
@@ -148,44 +148,49 @@ public class Login extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        unregisterReceiver(airPlaneModeReceiver);
     }
 
-    private void onDefiningRole(FirebaseUser cur_user){
-        pd.show();
+    private void onDefiningRole(FirebaseUser cur_user) {
+        setContentView(R.layout.welcome_log_in);
+        FadingTextView fadingUserTextView = (FadingTextView) findViewById(R.id.user_name_faded);
+
         FirebaseDatabase user_db = FirebaseDatabase.getInstance();
         DatabaseReference userdb_ref = user_db.getReference("users");
         Query singleUser = userdb_ref.child(cur_user.getUid());
-
         singleUser.addListenerForSingleValueEvent(new ValueEventListener() {
+            @RequiresApi(api = Build.VERSION_CODES.P)
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                User user =  dataSnapshot.getValue(User.class);
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                //pd.show();
+                User user = snapshot.getValue(User.class);
+                String[] userArr = {user.getName()};
+                fadingUserTextView.setTexts(userArr);
+                fadingUserTextView.setTimeout(30, TimeUnit.MILLISECONDS);
                 //If admin show the admin site
-                if (user.getRole() != null){
-                    if (user.getRole().equals("admin")){
-                        Log.d("TAG", "onDataChange: admin");
-                        Intent intent = new Intent(getApplicationContext(), Admin.class);
-                        startActivity(intent);
-                        finish();
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (user.getRole() != null) {
+                            if (user.getRole().equals("admin")) {
+                                Intent intent = new Intent(getApplicationContext(), Admin.class);
+                                startActivity(intent);
+                                finish();
+                            } else {
+                                Intent intent = new Intent(getApplicationContext(), Dashboard.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                        }
                         pd.dismiss();
                     }
-                    else {
-                        Log.d("TAG", "onDataChange: member");
-                        Intent intent = new Intent(getApplicationContext(), Dashboard.class);
-                        startActivity(intent);
-                        finish();
-                        pd.dismiss();
-                    }
-                }
-
+                }, 1000);
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.d("User", databaseError.getMessage());
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
-
     }
 }
