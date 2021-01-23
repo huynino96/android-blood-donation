@@ -1,27 +1,24 @@
 package com.example.blood_donation.activities;
 
-import android.app.ProgressDialog;
-import android.content.Context;
-import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.os.Bundle;
-
-import android.util.Log;
-import android.view.View;
-
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.TextView;
-import android.widget.Toast;
-
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.blood_donation.R;
 import com.example.blood_donation.broadcast.MyApplication;
@@ -33,7 +30,6 @@ import com.example.blood_donation.fragments.NearByHospitalActivity;
 import com.example.blood_donation.fragments.SearchDonor;
 import com.example.blood_donation.fragments.UserList;
 import com.example.blood_donation.model.User;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -44,23 +40,18 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-
-
-public class Dashboard extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
-
+public class Admin extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
     private FirebaseAuth mAuth;
+    private FirebaseUser cur_user;
+    private ProgressDialog pd;
     private TextView getUserName;
     private TextView getUserEmail;
-    private FirebaseUser cur_user;
-    private FloatingActionButton fab;
-    private ProgressDialog pd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_dashboard);
-        
+        setContentView(R.layout.admin);
+
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
         if (networkInfo != null && networkInfo.isConnected()) {
@@ -110,10 +101,10 @@ public class Dashboard extends AppCompatActivity
 
         if(savedInstanceState == null)
         {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentcontainer, new HomeView()).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentcontainer, new UserList()).commit();
         }
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_admin);
         setSupportActionBar(toolbar);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -130,28 +121,6 @@ public class Dashboard extends AppCompatActivity
         getUserName = (TextView) header.findViewById(R.id.UserNameView);
 
         navigationView.getMenu().getItem(0).setChecked(true);
-
-    }
-
-    public void changeTextStatus(boolean isConnected) {
-
-        // Change status according to boolean value
-        if (isConnected) {
-            Toast.makeText(getApplicationContext(), "Internet is connected", Toast.LENGTH_LONG).show();
-        } else {
-            Toast.makeText(getApplicationContext(), "There is no internet connection", Toast.LENGTH_LONG).show();
-        }
-    }
-
-
-    @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
     }
 
     @Override
@@ -177,40 +146,15 @@ public class Dashboard extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
+    public void changeTextStatus(boolean isConnected) {
 
-        if (id == R.id.home) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentcontainer, new HomeView()).commit();
-            fab.setVisibility(View.VISIBLE);
-
-        } else if (id == R.id.userprofile) {
-            startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
+        // Change status according to boolean value
+        if (isConnected) {
+            Toast.makeText(getApplicationContext(), "Internet is connected", Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(getApplicationContext(), "There is no internet connection", Toast.LENGTH_LONG).show();
 
         }
-        else if (id == R.id.user_achiev) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentcontainer, new AchievementView()).commit();
-
-        }
-        else if (id == R.id.logout) {
-            mAuth.signOut();
-            Intent intent = new Intent(getApplicationContext(), Login.class);
-            startActivity(intent);
-        }
-        else if (id == R.id.blood_storage){
-
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentcontainer, new SearchDonor()).commit();
-
-        } else if (id == R.id.nearby_hospital) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentcontainer, new NearByHospitalActivity()).commit();
-            fab.setVisibility(View.INVISIBLE);
-        }
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
     }
 
     @Override
@@ -250,5 +194,20 @@ public class Dashboard extends AppCompatActivity
         super.onStop();
     }
 
-}
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
 
+        if (id == R.id.InfoDonor){
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentcontainer, new UserList()).commit();
+        }
+        else if (id == R.id.logout) {
+            mAuth.signOut();
+            Intent intent = new Intent(getApplicationContext(), Login.class);
+            startActivity(intent);
+        }
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return false;
+    }
+}

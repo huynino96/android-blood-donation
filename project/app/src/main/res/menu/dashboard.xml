@@ -11,10 +11,4 @@
         android:title="@string/devinfo"
         android:orderInCategory="101"
         app:showAsAction="never" />
-    <item
-        android:id="@+id/switchRole"
-        android:title="Switch to member"
-        android:orderInCategory="101"
-        android:visible="false"
-        app:showAsAction="never" />
 </menu>

@@ -12,12 +12,21 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.blood_donation.R;
 import com.example.blood_donation.broadcast.AirPlaneModeReceiver;
 import com.example.blood_donation.broadcast.MyApplication;
+import com.example.blood_donation.model.User;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 public class Login extends AppCompatActivity {
 
@@ -54,9 +63,7 @@ public class Login extends AppCompatActivity {
 
         if(mAuth.getCurrentUser() != null)
         {
-            Intent intent = new Intent(getApplicationContext(), Dashboard.class);
-            startActivity(intent);
-            finish();
+            onDefiningRole(mAuth.getCurrentUser());
         }
 
 
@@ -83,9 +90,7 @@ public class Login extends AppCompatActivity {
                                             Toast.LENGTH_LONG).show();
                                     Log.v("error", task.getException().getMessage());
                                 } else {
-                                    Intent intent = new Intent(getApplicationContext(), Dashboard.class);
-                                    startActivity(intent);
-                                    finish();
+                                    onDefiningRole(mAuth.getCurrentUser());
                                 }
                                 pd.dismiss();
                             });
@@ -142,5 +147,40 @@ public class Login extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         unregisterReceiver(airPlaneModeReceiver);
+    }
+
+    private void onDefiningRole(FirebaseUser cur_user){
+        FirebaseDatabase user_db = FirebaseDatabase.getInstance();
+        DatabaseReference userdb_ref = user_db.getReference("users");
+        Query singleUser = userdb_ref.child(cur_user.getUid());
+        singleUser.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                //pd.show();
+                User user =  dataSnapshot.getValue(User.class);
+                //If admin show the admin site
+                if (user.getRole() != null){
+                    if (user.getRole().equals("admin")){
+                        Log.d("TAG", "onDataChange: admin");
+                        Intent intent = new Intent(getApplicationContext(), Admin.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                    else {
+                        Log.d("TAG", "onDataChange: member");
+                        Intent intent = new Intent(getApplicationContext(), Dashboard.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                }
+                pd.dismiss();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.d("User", databaseError.getMessage());
+            }
+        });
+
     }
 }
