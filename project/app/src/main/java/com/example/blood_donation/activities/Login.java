@@ -34,6 +34,7 @@ public class Login extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private ProgressDialog pd;
     private AirPlaneModeReceiver airPlaneModeReceiver;
+    private FirebaseUser user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,9 +62,10 @@ public class Login extends AppCompatActivity {
         }
 
 
-        if(mAuth.getCurrentUser() != null)
+        user = mAuth.getCurrentUser();
+        if (user != null)
         {
-            onDefiningRole(mAuth.getCurrentUser());
+            onDefiningRole(user);
         }
 
 
@@ -81,7 +83,7 @@ public class Login extends AppCompatActivity {
 
             try {
                 if(password.length()>0 && email.length()>0) {
-                    pd.show();
+
                     mAuth.signInWithEmailAndPassword(email, password)
                             .addOnCompleteListener(Login.this, task -> {
                                 if (!task.isSuccessful()) {
@@ -91,9 +93,8 @@ public class Login extends AppCompatActivity {
                                     Log.v("error", task.getException().getMessage());
                                 } else {
                                     Log.d("TAG", "onCreate: success" );
-                                    onDefiningRole(mAuth.getCurrentUser());
+                                    onDefiningRole(user);
                                 }
-                                pd.dismiss();
                             });
                 }
                 else
@@ -151,13 +152,14 @@ public class Login extends AppCompatActivity {
     }
 
     private void onDefiningRole(FirebaseUser cur_user){
+        pd.show();
         FirebaseDatabase user_db = FirebaseDatabase.getInstance();
         DatabaseReference userdb_ref = user_db.getReference("users");
         Query singleUser = userdb_ref.child(cur_user.getUid());
+
         singleUser.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                //pd.show();
                 User user =  dataSnapshot.getValue(User.class);
                 //If admin show the admin site
                 if (user.getRole() != null){
@@ -166,15 +168,17 @@ public class Login extends AppCompatActivity {
                         Intent intent = new Intent(getApplicationContext(), Admin.class);
                         startActivity(intent);
                         finish();
+                        pd.dismiss();
                     }
                     else {
                         Log.d("TAG", "onDataChange: member");
                         Intent intent = new Intent(getApplicationContext(), Dashboard.class);
                         startActivity(intent);
                         finish();
+                        pd.dismiss();
                     }
                 }
-                pd.dismiss();
+
             }
 
             @Override

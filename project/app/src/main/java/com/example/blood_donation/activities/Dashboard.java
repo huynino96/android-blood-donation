@@ -24,6 +24,7 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.example.blood_donation.R;
+import com.example.blood_donation.TimerService;
 import com.example.blood_donation.broadcast.MyApplication;
 import com.example.blood_donation.fragments.AboutUs;
 import com.example.blood_donation.fragments.AchievementView;
@@ -32,6 +33,7 @@ import com.example.blood_donation.fragments.HomeView;
 import com.example.blood_donation.fragments.NearByHospitalActivity;
 import com.example.blood_donation.fragments.SearchDonor;
 import com.example.blood_donation.fragments.UserList;
+import com.example.blood_donation.model.Donor;
 import com.example.blood_donation.model.User;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
@@ -55,6 +57,10 @@ public class Dashboard extends AppCompatActivity
     private FirebaseUser cur_user;
     private FloatingActionButton fab;
     private ProgressDialog pd;
+    private String[] bloodGroup, divisionList;
+    private int userBloodGroup;
+    private int userDivision;
+    private String lastDonate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +83,10 @@ public class Dashboard extends AppCompatActivity
         mAuth = FirebaseAuth.getInstance();
         FirebaseDatabase user_db = FirebaseDatabase.getInstance();
         cur_user = mAuth.getCurrentUser();
+        bloodGroup = getResources().getStringArray(R.array.Blood_Group);
+        divisionList = getResources().getStringArray(R.array.division_list);
         DatabaseReference userdb_ref = user_db.getReference("users");
+        DatabaseReference donordb_ref = user_db.getReference("donors");
 
         getUserEmail = findViewById(R.id.UserEmailView);
         getUserName = findViewById(R.id.UserNameView);
@@ -97,12 +106,39 @@ public class Dashboard extends AppCompatActivity
 
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                //pd.show();
-                User user =  dataSnapshot.getValue(User.class);
-                String name = user.getName();
-                getUserName.setText(name);
-                getUserEmail.setText(cur_user.getEmail());
-                pd.dismiss();
+                if (dataSnapshot.exists()) {
+                    User user = dataSnapshot.getValue(User.class);
+                    getUserName.setText(user.getName());
+                    userBloodGroup = user.getBloodGroup();
+                    userDivision = user.getDivision();
+                    getUserEmail.setText(cur_user.getEmail());
+
+                    Query userLastDonate = donordb_ref
+                            .child(divisionList[userDivision])
+                            .child(bloodGroup[userBloodGroup])
+                            .child(cur_user.getUid());
+
+                    userLastDonate.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            if(dataSnapshot.exists()) {
+                                Donor donor = dataSnapshot.getValue(Donor.class);
+//                            Log.d(getApplicationContext() + "", "Last donate: " + donor.getLastDonate() + "");
+//                            Log.d(getApplicationContext() + "", "UID: " + donor.getUID() + "");
+                                assert donor != null;
+                                lastDonate = donor.getLastDonate();
+                                Intent intent = new Intent(getApplicationContext(), TimerService.class);
+                                serviceRunner(intent);
+                                pd.dismiss();
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                            Log.d(getApplicationContext() + "", "This user has no donate info");
+                        }
+                    });
+                }
             }
 
             @Override
@@ -257,6 +293,13 @@ public class Dashboard extends AppCompatActivity
     protected void onStop() {
         super.onStop();
     }
+
+    private void serviceRunner(Intent intent){
+        stopService(intent);
+        intent.putExtra("lastDonate", lastDonate);
+        startService(intent);
+    }
+
 
 }
 

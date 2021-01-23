@@ -1,12 +1,17 @@
 package com.example.blood_donation;
 
+import android.app.NotificationManager;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
 import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.core.app.NotificationCompat;
+
+import com.example.blood_donation.model.User;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -23,37 +28,51 @@ public class TimerService extends Service {
     private Date lastDonateDate;
     private SimpleDateFormat sdf;
     private final Timer t = new Timer();
-    private int DATE_CHECK_INTERVAL = 60;
+    // Check date every 120 seconds
+    private final int DATE_CHECK_INTERVAL = 120;
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
         return null;
     }
-
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        lastDonate = intent.getExtras().get("lastDonate") + "";
-        sdf = new SimpleDateFormat("dd/MM/yy", Locale.ENGLISH);
-        t.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                try {
-                    currentDate = Calendar.getInstance().getTime();
-                    lastDonateDate = sdf.parse(lastDonate);
-                    long diffMilli = Math.abs(currentDate.getTime() - lastDonateDate.getTime());
-                    long diff = TimeUnit.DAYS.convert(diffMilli, TimeUnit.MILLISECONDS);
+        if (intent.getExtras() != null) {
+            lastDonate = intent.getStringExtra("lastDonate");
+            Log.d("Service Intent: ", "Last Donate" + lastDonate);
+            sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
+            t.scheduleAtFixedRate(new TimerTask() {
+                @Override
+                public void run() {
+                    try {
+                        Log.d(getApplicationContext() + "", "Timer task started");
+                        currentDate = Calendar.getInstance().getTime();
+                        lastDonateDate = sdf.parse(lastDonate);
+                        long diffMilli = Math.abs(currentDate.getTime() - lastDonateDate.getTime());
+                        long diff = TimeUnit.DAYS.convert(diffMilli, TimeUnit.MILLISECONDS);
+                        Log.d(getApplicationContext() + "", "Date after last donate: " + diff);
+                        if (diff >= 120) {
+                            String title = "Blood donation countdown";
+                            String context = "Notification context";
+                            int NOTIFICATION_ID = 2000;
+//                            Toast.makeText(getApplicationContext(), "It has been more than 10 days since your last blood donation.", Toast.LENGTH_SHORT).show();
+                            NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext())
+                                    .setSmallIcon(R.drawable.notification_icon)
+                                    .setContentTitle(title)
+                                    .setContentText(context)
+                                    .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+                            NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                            notificationManager.notify(NOTIFICATION_ID, builder.build());
+                            Log.d(getApplicationContext() + "","Notification called");
+                        }
 
-                    if (diff > 10) {
-                        // Notification build
-                        Toast.makeText(TimerService.this, "Difference is > 10 days", Toast.LENGTH_SHORT).show();
+                    } catch (ParseException e) {
+                        e.printStackTrace();
                     }
 
-                } catch (ParseException e) {
-                    e.printStackTrace();
                 }
-
-            }
-        }, 0, DATE_CHECK_INTERVAL * 1000);
+            }, 0, DATE_CHECK_INTERVAL * 1000);
+        }
         return super.onStartCommand(intent, flags, startId);
     }
 
@@ -63,4 +82,7 @@ public class TimerService extends Service {
         Toast.makeText(this, "Cool down time has ended. You may proceed blood donating again", Toast.LENGTH_SHORT).show();
         super.onDestroy();
     }
+
+
+
 }
