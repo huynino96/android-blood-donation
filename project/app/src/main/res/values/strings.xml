@@ -62,6 +62,9 @@
         <item>O-</item>
     </array>
 
+    <array name="chart_selection">
+        <item>"Current Month"</item>
+    </array>
     <string name="eligibility_">Eligibility Requirements</string>
     <string name="female_">If you are female, you must:\n Be healthy and feeling well\nBe at least 18 years old to 60 years old\nBe at least weigh at least 42kg.</string>
     <string name="male_">If you are male, you must:\nBe healthy and feeling well\nBe at least 18 years old to 60 years old\nBe at least weigh at least 45kg.</string>

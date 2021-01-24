@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class User {
 
-    private String Name, Email, Contact, Address, Role, UID, date;
+    private String Name, Email, Contact, Address, Role, UID, Date;
     private int Gender, BloodGroup, Division;
 
     public User() {
@@ -73,5 +73,7 @@ public class User {
         return UID;
     }
 
-
+    public String getDate() {
+        return Date;
+    }
 }

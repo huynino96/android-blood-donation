@@ -23,12 +23,8 @@ import android.widget.Toast;
 import com.example.blood_donation.R;
 import com.example.blood_donation.broadcast.MyApplication;
 import com.example.blood_donation.fragments.AboutUs;
-import com.example.blood_donation.fragments.AchievementView;
 import com.example.blood_donation.fragments.BloodInfo;
-import com.example.blood_donation.fragments.CombinedChart;
-import com.example.blood_donation.fragments.HomeView;
-import com.example.blood_donation.fragments.NearByHospitalActivity;
-import com.example.blood_donation.fragments.SearchDonor;
+import com.example.blood_donation.fragments.UserStat;
 import com.example.blood_donation.fragments.UserList;
 import com.example.blood_donation.model.User;
 import com.google.android.material.navigation.NavigationView;
@@ -203,7 +199,7 @@ public class Admin extends AppCompatActivity implements NavigationView.OnNavigat
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentcontainer, new UserList()).commit();
         }
         else if (id == R.id.StatUser){
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentcontainer, new CombinedChart()).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentcontainer, new UserStat()).commit();
         }
         else if (id == R.id.logout) {
             mAuth.signOut();

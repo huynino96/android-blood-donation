@@ -42,7 +42,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     private boolean isUpdate = false;
 
-    private DatabaseReference db_ref, donor_ref, time_ref;
+    private DatabaseReference db_ref, donor_ref;
     private CheckBox isDonor;
 
     @SuppressLint("SetTextI18n")
@@ -59,7 +59,6 @@ public class ProfileActivity extends AppCompatActivity {
         FirebaseDatabase db_User = FirebaseDatabase.getInstance();
         db_ref = db_User.getReference("users");
         donor_ref = db_User.getReference("donors");
-//        time_ref = db_User.getReference("times");
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -194,8 +193,6 @@ public class ProfileActivity extends AppCompatActivity {
                                             Log.d("TAG", "onCreate: failed");
                                             Log.v("error", task.getException().getMessage());
                                         } else {
-                                            Log.d("TAG", "onCreate: "+ "created time 1");
-
                                             String id = mAuth.getCurrentUser().getUid();
                                             db_ref.child(id).child("Name").setValue(Name);
                                             db_ref.child(id).child("Gender").setValue(Gender);
@@ -205,8 +202,7 @@ public class ProfileActivity extends AppCompatActivity {
                                             db_ref.child(id).child("Division").setValue(Division);
                                             db_ref.child(id).child("Role").setValue("member");
                                             db_ref.child(id).child("UID").setValue(id).toString();
-                                            Log.d("TAG", "onCreate: "+ "created time 2");
-//                                            addTimeStamp(id);
+                                            addTimeStamp(id);
 
                                             if(isDonor.isChecked())
                                             {
@@ -293,12 +289,13 @@ public class ProfileActivity extends AppCompatActivity {
     private void addTimeStamp(String id){
         Calendar cal = Calendar.getInstance();
 
-        int month = cal.get(Calendar.MONTH);
+        int day = cal.get(Calendar.DAY_OF_MONTH);
+        int month = cal.get(Calendar.MONTH) + 1;
         int year = cal.get(Calendar.YEAR);
 
-        String date = month+"/"+year;
+        String date = day+"/"+ month+"/"+year;
+        db_ref.child(id).child("Date").setValue(date);
 
-        time_ref.child(date).child("UID").setValue(id);
 
 //        final Query findname = time_ref.child(date);
 //        findname.addListenerForSingleValueEvent(new ValueEventListener() {

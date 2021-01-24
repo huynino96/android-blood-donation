@@ -84,6 +84,8 @@ public class Login extends AppCompatActivity {
                         mAuth.signInWithEmailAndPassword(email, password)
                                 .addOnCompleteListener(Login.this, task -> {
                                     if (!task.isSuccessful()) {
+                                        Log.d("TAG", "onCreate: failed" );
+
                                         Toast.makeText(getApplicationContext(),
                                                 "Authentication Failed",
                                                 Toast.LENGTH_LONG).show();
@@ -91,6 +93,7 @@ public class Login extends AppCompatActivity {
                                         pd.dismiss();
                                     } else {
                                         pd.dismiss();
+                                        Log.d("TAG", "onCreate: success" );
                                         onDefiningRole(mAuth.getCurrentUser());
                                     }
                                 });

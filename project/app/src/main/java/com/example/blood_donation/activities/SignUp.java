@@ -26,6 +26,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.HashMap;
+import java.util.Objects;
+
 public class SignUp extends AppCompatActivity {
     private EditText inputEmail, inputPassword, retypePassword, fullName, address, phone;
     private FirebaseAuth mAuth;
@@ -189,6 +192,7 @@ public class SignUp extends AppCompatActivity {
                                             db_ref.child(id).child("BloodGroup").setValue(BloodGroup);
                                             db_ref.child(id).child("Address").setValue(Address);
                                             db_ref.child(id).child("Division").setValue(Division);
+                                            db_ref.child(id).child("Date").setValue(Objects.requireNonNull(mAuth.getCurrentUser().getMetadata()).getCreationTimestamp());
 
                                             if(isDonor.isChecked())
                                             {
@@ -201,7 +205,6 @@ public class SignUp extends AppCompatActivity {
                                                 donor_ref.child(div).child(blood).child(id).child("Gender").setValue(Gender);
                                                 donor_ref.child(div).child(blood).child(id).child("Division").setValue(Division);
                                             }
-
                                             Toast.makeText(getApplicationContext(), "Welcome, your account has been created!", Toast.LENGTH_LONG)
                                                     .show();
                                             Intent intent = new Intent(SignUp.this, Dashboard.class);

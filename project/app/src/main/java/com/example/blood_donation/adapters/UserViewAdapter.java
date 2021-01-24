@@ -98,7 +98,6 @@ public class UserViewAdapter extends RecyclerView.Adapter<UserViewAdapter.UserHo
                                 holder.lastDonate.setVisibility(View.VISIBLE);
                             }
                         }
-
                     }
                 }
                 else
