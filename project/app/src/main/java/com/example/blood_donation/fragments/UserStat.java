@@ -47,34 +47,33 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 public class UserStat extends Fragment implements OnChartValueSelectedListener {
     private ProgressDialog pd;
-    DatabaseReference db_ref;
+    private DatabaseReference db_ref;
     private Calendar calendar;
-    private int cur_month, cur_year , cur_day;
+    private int cur_month,cur_day;
     private LinkedHashMap<String, Integer> dateMap ;
     private ArrayList<String>dateStrList ;
     private com.github.mikephil.charting.charts.CombinedChart mChart;
-    private View view;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.bar_chart_fragment, container, false);
+        View view = inflater.inflate(R.layout.user_chart_fragment, container, false);
 
         pd = new ProgressDialog(getActivity());
         pd.setMessage("Loading...");
         pd.setCancelable(true);
         pd.setCanceledOnTouchOutside(false);
 
+        pd.show();
+
         calendar = Calendar.getInstance();
         cur_month = calendar.get(Calendar.MONTH) + 1;
-        cur_year = calendar.get(Calendar.YEAR);
 
         db_ref = FirebaseDatabase.getInstance().getReference();
 
@@ -85,6 +84,7 @@ public class UserStat extends Fragment implements OnChartValueSelectedListener {
         mChart.setDrawBarShadow(false);
         mChart.setHighlightFullBarEnabled(false);
         mChart.setOnChartValueSelectedListener(this);
+        mChart.animate();
 
         YAxis rightAxis = mChart.getAxisRight();
         rightAxis.setDrawGridLines(false);
@@ -132,6 +132,7 @@ public class UserStat extends Fragment implements OnChartValueSelectedListener {
                     }
                     getDateMap();
                     try {
+                        pd.dismiss();
                         viewOneMonth();
                     } catch (ParseException e) {
                         e.printStackTrace();

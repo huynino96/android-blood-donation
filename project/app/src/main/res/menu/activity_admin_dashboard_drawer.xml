@@ -14,6 +14,10 @@
             android:icon="@drawable/ic_baseline_show_chart_24"
             android:title="@string/statUser" />
         <item
+            android:id="@+id/BloodStat"
+            android:icon="@drawable/ic_baseline_pie_chart_24"
+            android:title="@string/chart_blood" />
+        <item
             android:id="@+id/logout"
             android:icon="@drawable/ic_logout"
             android:title="@string/lgout" />
