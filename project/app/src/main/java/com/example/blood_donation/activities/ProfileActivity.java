@@ -31,6 +31,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Calendar;
+
 public class ProfileActivity extends AppCompatActivity {
 
     private EditText inputEmail, inputPassword, retypePassword, fullName, address, contact;
@@ -40,7 +42,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     private boolean isUpdate = false;
 
-    private DatabaseReference db_ref, donor_ref;
+    private DatabaseReference db_ref, donor_ref, time_ref;
     private CheckBox isDonor;
 
     @SuppressLint("SetTextI18n")
@@ -57,6 +59,8 @@ public class ProfileActivity extends AppCompatActivity {
         FirebaseDatabase db_User = FirebaseDatabase.getInstance();
         db_ref = db_User.getReference("users");
         donor_ref = db_User.getReference("donors");
+//        time_ref = db_User.getReference("times");
+
         mAuth = FirebaseAuth.getInstance();
 
         inputEmail = findViewById(R.id.input_userEmail);
@@ -187,8 +191,11 @@ public class ProfileActivity extends AppCompatActivity {
                                         if (!task.isSuccessful()) {
                                             Toast.makeText(ProfileActivity.this, "Registration failed! try agian.", Toast.LENGTH_LONG)
                                                     .show();
+                                            Log.d("TAG", "onCreate: failed");
                                             Log.v("error", task.getException().getMessage());
                                         } else {
+                                            Log.d("TAG", "onCreate: "+ "created time 1");
+
                                             String id = mAuth.getCurrentUser().getUid();
                                             db_ref.child(id).child("Name").setValue(Name);
                                             db_ref.child(id).child("Gender").setValue(Gender);
@@ -196,6 +203,10 @@ public class ProfileActivity extends AppCompatActivity {
                                             db_ref.child(id).child("BloodGroup").setValue(BloodGroup);
                                             db_ref.child(id).child("Address").setValue(Address);
                                             db_ref.child(id).child("Division").setValue(Division);
+                                            db_ref.child(id).child("Role").setValue("member");
+                                            db_ref.child(id).child("UID").setValue(id).toString();
+                                            Log.d("TAG", "onCreate: "+ "created time 2");
+//                                            addTimeStamp(id);
 
                                             if(isDonor.isChecked())
                                             {
@@ -205,7 +216,6 @@ public class ProfileActivity extends AppCompatActivity {
                                                 donor_ref.child(div).child(blood).child(id).child("Name").setValue(Name);
                                                 donor_ref.child(div).child(blood).child(id).child("Contact").setValue(Contact);
                                                 donor_ref.child(div).child(blood).child(id).child("Address").setValue(Address);
-
                                             }
 
                                             Toast.makeText(getApplicationContext(), "Welcome, your account has been created!", Toast.LENGTH_LONG)
@@ -229,7 +239,9 @@ public class ProfileActivity extends AppCompatActivity {
                         db_ref.child(id).child("BloodGroup").setValue(BloodGroup);
                         db_ref.child(id).child("Address").setValue(Address);
                         db_ref.child(id).child("Division").setValue(Division);
-                        donor_ref.child(div).child(blood).child(id).child("UID").setValue(id).toString();
+                        db_ref.child(id).child("Role").setValue("member");
+                        db_ref.child(id).child("UID").setValue(id).toString();
+
 
                         if(isDonor.isChecked())
                         {
@@ -239,7 +251,6 @@ public class ProfileActivity extends AppCompatActivity {
                             donor_ref.child(div).child(blood).child(id).child("Name").setValue(Name);
                             donor_ref.child(div).child(blood).child(id).child("Contact").setValue(Contact);
                             donor_ref.child(div).child(blood).child(id).child("Address").setValue(Address);
-
                         }
                         else
                         {
@@ -277,5 +288,39 @@ public class ProfileActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void addTimeStamp(String id){
+        Calendar cal = Calendar.getInstance();
+
+        int month = cal.get(Calendar.MONTH);
+        int year = cal.get(Calendar.YEAR);
+
+        String date = month+"/"+year;
+
+        time_ref.child(date).child("UID").setValue(id);
+
+//        final Query findname = time_ref.child(date);
+//        findname.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//
+//                if (dataSnapshot.exists()) {
+//                    time_ref.child(date).setValue(id);
+//                    Log.d("TAG", "onDataChange: set value");
+//
+//                } else {
+//                    Toast.makeText(getApplicationContext(), "Database error.",
+//                            Toast.LENGTH_LONG).show();
+//                }
+//            }
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//                Log.d("User", databaseError.getMessage());
+//
+//            }
+//        });
+
+//        time_ref.child(date).setValue(id);
     }
 }

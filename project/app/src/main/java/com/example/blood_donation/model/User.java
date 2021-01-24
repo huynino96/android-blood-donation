@@ -1,8 +1,10 @@
 package com.example.blood_donation.model;
 
+import java.util.Date;
+
 public class User {
 
-    private String Name, Email, Contact, Address, Role, UID;
+    private String Name, Email, Contact, Address, Role, UID, date;
     private int Gender, BloodGroup, Division;
 
     public User() {
@@ -70,4 +72,6 @@ public class User {
     public String getUID() {
         return UID;
     }
+
+
 }

@@ -25,6 +25,7 @@ import com.example.blood_donation.broadcast.MyApplication;
 import com.example.blood_donation.fragments.AboutUs;
 import com.example.blood_donation.fragments.AchievementView;
 import com.example.blood_donation.fragments.BloodInfo;
+import com.example.blood_donation.fragments.CombinedChart;
 import com.example.blood_donation.fragments.HomeView;
 import com.example.blood_donation.fragments.NearByHospitalActivity;
 import com.example.blood_donation.fragments.SearchDonor;
@@ -201,11 +202,15 @@ public class Admin extends AppCompatActivity implements NavigationView.OnNavigat
         if (id == R.id.InfoDonor){
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentcontainer, new UserList()).commit();
         }
+        else if (id == R.id.StatUser){
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentcontainer, new CombinedChart()).commit();
+        }
         else if (id == R.id.logout) {
             mAuth.signOut();
             Intent intent = new Intent(getApplicationContext(), Login.class);
             startActivity(intent);
         }
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return false;

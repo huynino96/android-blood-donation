@@ -8,7 +8,11 @@
         <item
             android:id="@+id/InfoDonor"
             android:icon="@drawable/ic_baseline_people_24"
-            android:title="@string/StatDo" />
+            android:title="@string/user_list" />
+        <item
+            android:id="@+id/StatUser"
+            android:icon="@drawable/ic_baseline_show_chart_24"
+            android:title="@string/statUser" />
         <item
             android:id="@+id/logout"
             android:icon="@drawable/ic_logout"

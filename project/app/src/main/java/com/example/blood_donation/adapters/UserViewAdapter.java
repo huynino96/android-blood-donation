@@ -89,13 +89,16 @@ public class UserViewAdapter extends RecyclerView.Adapter<UserViewAdapter.UserHo
                     for(DataSnapshot singleItem : dataSnapshot.getChildren())
                     {
                         Donor donorData = singleItem.getValue(Donor.class);
-                        if (userData.getUID().equals(donorData.getUID())){
-                            holder.totalDonate.setText("Total donate: "+donorData.getTotalDonate());
-                            holder.lastDonate.setText("Last donate: " + donorData.getLastDonate());
-                            holder.imageView.setVisibility(View.VISIBLE);
-                            holder.totalDonate.setVisibility(View.VISIBLE);
-                            holder.lastDonate.setVisibility(View.VISIBLE);
+                        if (userData.getUID()!= null){
+                            if (userData.getUID().equals(donorData.getUID())){
+                                holder.totalDonate.setText("Total donate: "+donorData.getTotalDonate());
+                                holder.lastDonate.setText("Last donate: " + donorData.getLastDonate());
+                                holder.imageView.setVisibility(View.VISIBLE);
+                                holder.totalDonate.setVisibility(View.VISIBLE);
+                                holder.lastDonate.setVisibility(View.VISIBLE);
+                            }
                         }
+
                     }
                 }
                 else

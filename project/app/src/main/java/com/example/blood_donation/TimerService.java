@@ -63,7 +63,7 @@ public class TimerService extends Service {
                         }
 
 
-                    } catch (ParseException e) {
+                    } catch (ParseException | NullPointerException e) {
                         e.printStackTrace();
                     }
 
