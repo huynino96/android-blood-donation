@@ -1,14 +1,18 @@
 package com.example.blood_donation;
 
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.IBinder;
 import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
 
 import com.example.blood_donation.model.User;
@@ -29,8 +33,8 @@ public class TimerService extends Service {
     private Date lastDonateDate;
     private SimpleDateFormat sdf;
     private final Timer t = new Timer();
-    // Check date every 120 seconds
-    private final int DATE_CHECK_INTERVAL = 120;
+    // Check date every 86400 seconds (1 day)
+    private final int DATE_CHECK_INTERVAL = 86400;
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
@@ -43,6 +47,7 @@ public class TimerService extends Service {
             Log.d("Service Intent: ", "Last Donate" + lastDonate);
             sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
             t.scheduleAtFixedRate(new TimerTask() {
+                @RequiresApi(api = Build.VERSION_CODES.O)
                 @Override
                 public void run() {
                     try {
@@ -52,20 +57,11 @@ public class TimerService extends Service {
                         long diffMilli = Math.abs(currentDate.getTime() - lastDonateDate.getTime());
                         long diff = TimeUnit.DAYS.convert(diffMilli, TimeUnit.MILLISECONDS);
                         Log.d(getApplicationContext() + "", "Date after last donate: " + diff);
-                        if (diff >= 120) {
-                            String title = "Blood donation countdown";
-                            String context = "Notification context";
-                            int NOTIFICATION_ID = 2000;
-//                            Toast.makeText(getApplicationContext(), "It has been more than 10 days since your last blood donation.", Toast.LENGTH_SHORT).show();
-                            NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext())
-                                    .setSmallIcon(R.drawable.notification_icon)
-                                    .setContentTitle(title)
-                                    .setContentText(context)
-                                    .setPriority(NotificationCompat.PRIORITY_DEFAULT);
-                            NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-                            notificationManager.notify(NOTIFICATION_ID, builder.build());
-                            Log.d(getApplicationContext() + "","Notification called");
+                        if (diff >= 10) {
+                            sendNotification();
+                            Log.d(getApplicationContext() + "", "Notification called");
                         }
+
 
                     } catch (ParseException e) {
                         e.printStackTrace();
@@ -77,6 +73,7 @@ public class TimerService extends Service {
         return super.onStartCommand(intent, flags, startId);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onDestroy() {
         t.cancel();
@@ -85,15 +82,28 @@ public class TimerService extends Service {
         super.onDestroy();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private void sendNotification() {
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        String id = "myServiceChannel";
+        CharSequence name = "Notification channel";
+        String description = "Notification channel for services";
+        int importance = NotificationManager.IMPORTANCE_LOW;
+        NotificationChannel mChannel = new NotificationChannel(id, name,importance);
+        mChannel.setDescription(description);
+        mChannel.enableLights(true);
+        mChannel.setLightColor(Color.RED);
+        mChannel.enableVibration(true);
+        mChannel.setVibrationPattern(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400});
+
+        notificationManager.createNotificationChannel(mChannel);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setSmallIcon(R.drawable.notification_icon)
                 .setContentTitle("Blood Point")
-                .setContentText("Cool down time has ended. You may proceed blood donating again")
-                .setStyle(new NotificationCompat.BigTextStyle()
-                        .bigText("Cool down has ended"))
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+                .setContentText("It has been more 120 days since your last blood donation.\nYou may proceed to donate again")
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setChannelId(id);
+
+        notificationManager.notify(1, builder.build());
     }
-
-
 }
