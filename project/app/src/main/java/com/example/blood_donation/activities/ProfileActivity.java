@@ -229,6 +229,7 @@ public class ProfileActivity extends AppCompatActivity {
                         db_ref.child(id).child("BloodGroup").setValue(BloodGroup);
                         db_ref.child(id).child("Address").setValue(Address);
                         db_ref.child(id).child("Division").setValue(Division);
+                        donor_ref.child(div).child(blood).child(id).child("UID").setValue(id).toString();
 
                         if(isDonor.isChecked())
                         {

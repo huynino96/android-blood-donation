@@ -2,7 +2,7 @@ package com.example.blood_donation.model;
 
 public class User {
 
-    private String Name, Email, Contact, Address, Role;
+    private String Name, Email, Contact, Address, Role, UID;
     private int Gender, BloodGroup, Division;
 
     public User() {
@@ -65,5 +65,9 @@ public class User {
 
     public String getRole() {
         return Role;
+    }
+
+    public String getUID() {
+        return UID;
     }
 }

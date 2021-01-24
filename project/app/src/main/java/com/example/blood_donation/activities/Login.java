@@ -90,12 +90,10 @@ public class Login extends AppCompatActivity {
                                         Toast.makeText(getApplicationContext(),
                                                 "Authentication Failed",
                                                 Toast.LENGTH_LONG).show();
-                                        Log.d("TAG", "onCreate: "+ "failed");
                                         Log.v("error", task.getException().getMessage());
                                         pd.dismiss();
                                     } else {
                                         pd.dismiss();
-                                        Log.d("TAG", "onCreate: "+ "success");
                                         onDefiningRole(mAuth.getCurrentUser());
                                     }
                                 });
