@@ -9,6 +9,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -38,6 +40,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.DateFormat;
+import java.text.DateFormatSymbols;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -54,11 +57,17 @@ import java.util.Map;
 public class UserStat extends Fragment implements OnChartValueSelectedListener {
     private ProgressDialog pd;
     private DatabaseReference db_ref;
+
     private Calendar calendar;
     private int cur_month,cur_day;
+
     private LinkedHashMap<String, Integer> dateMap ;
     private ArrayList<String>dateStrList ;
+    private String selectedItem = "This month";
+
+    //Initialize view
     private com.github.mikephil.charting.charts.CombinedChart mChart;
+    private Spinner spinner;
 
     @Nullable
     @Override
@@ -77,7 +86,17 @@ public class UserStat extends Fragment implements OnChartValueSelectedListener {
 
         db_ref = FirebaseDatabase.getInstance().getReference();
 
+        spinner = view.findViewById(R.id.spinner_selection);
         mChart = (com.github.mikephil.charting.charts.CombinedChart) view.findViewById(R.id.combinedChart);
+
+        initPieChart();
+        initSpinner();
+
+        onDrawOnChart();
+        return view;
+    }
+
+    private void initPieChart(){
         mChart.getDescription().setEnabled(false);
         mChart.setBackgroundColor(Color.WHITE);
         mChart.setDrawGridBackground(false);
@@ -93,10 +112,23 @@ public class UserStat extends Fragment implements OnChartValueSelectedListener {
         YAxis leftAxis = mChart.getAxisLeft();
         leftAxis.setDrawGridLines(false);
         leftAxis.setAxisMinimum(0f);
+    }
 
-        onDrawOnChart();
+    private void initSpinner(){
 
-        return view;
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                pd.show();
+                selectedItem = parent.getItemAtPosition(position).toString();
+                onDrawOnChart();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
 
     @Override
@@ -115,8 +147,20 @@ public class UserStat extends Fragment implements OnChartValueSelectedListener {
     }
 
     private void onDrawOnChart(){
-        dateStrList = new ArrayList<>();
-        dateMap = new LinkedHashMap<>();
+        //Init dateStrList
+        if (dateStrList != null){
+            dateStrList.clear();
+        }else {
+            dateStrList = new ArrayList<>();
+        }
+
+        //Init dateMap
+        if (dateMap != null){
+            dateMap.clear();
+        }
+        else {
+            dateMap = new LinkedHashMap<>();
+        }
 
         Query allposts = db_ref.child("users");
 
@@ -133,7 +177,15 @@ public class UserStat extends Fragment implements OnChartValueSelectedListener {
                     getDateMap();
                     try {
                         pd.dismiss();
-                        viewOneMonth();
+                        if (selectedItem.equals("This month")){
+                            viewOneMonth();
+                        }
+                        else if (selectedItem.equals("This year")){
+                            viewOneYear();
+                        }
+                        else if (selectedItem.equals("4 years")){
+                            view4Years();
+                        }
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
@@ -168,7 +220,6 @@ public class UserStat extends Fragment implements OnChartValueSelectedListener {
             }
         });
 
-
         for(String dateStr:dateStrList){
             if (dateMap.containsKey(dateStr)){
                 dateMap.put(dateStr,dateMap.get(dateStr) + 1);
@@ -181,7 +232,7 @@ public class UserStat extends Fragment implements OnChartValueSelectedListener {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void viewOneMonth() throws ParseException {
-        LinkedHashMap<String, Integer> dateOfMonth = new LinkedHashMap<>();
+        LinkedHashMap<String, Integer> mapMonth = new LinkedHashMap<>();
         @SuppressLint("SimpleDateFormat") final DateFormat f = new SimpleDateFormat("dd/MM/yyyy");
         // Getting an iterator
         for (Map.Entry<String, Integer> stringIntegerEntry : dateMap.entrySet()) {
@@ -194,20 +245,72 @@ public class UserStat extends Fragment implements OnChartValueSelectedListener {
 
             //CURRENT YEAR
             if (year == Calendar.getInstance().get(Calendar.YEAR) && month == cur_month){
-                if (dateOfMonth.containsKey(day)){
-                    dateOfMonth.put(day, dateOfMonth.get(day) + stringIntegerEntry.getValue());
+                if (mapMonth.containsKey(day)){
+                    mapMonth.put(day, mapMonth.get(day) + stringIntegerEntry.getValue());
                 }
                 else {
-                    dateOfMonth.put(day, stringIntegerEntry.getValue());
+                    mapMonth.put(day, stringIntegerEntry.getValue());
                 }
             }
         }
-        appendDataOnChart(dateOfMonth);
+        appendDataOnChart(mapMonth);
     }
 
-    private void appendDataOnChart(LinkedHashMap<String, Integer> dateOfMonth){
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void viewOneYear() throws ParseException {
+        LinkedHashMap<String, Integer> mapYear = new LinkedHashMap<>();
+        @SuppressLint("SimpleDateFormat") final DateFormat f = new SimpleDateFormat("dd/MM/yyyy");
+        for (Map.Entry<String, Integer> stringIntegerEntry : dateMap.entrySet()) {
+
+            Date date = f.parse((String) stringIntegerEntry.getKey());
+            LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            int month = localDate.getMonthValue();
+            int year = localDate.getYear();
+
+            //CURRENT YEAR
+            if (year == Calendar.getInstance().get(Calendar.YEAR)){
+                String monthStr = getMonth(month);
+                if (mapYear.containsKey(monthStr)){
+                    mapYear.put(monthStr, mapYear.get(monthStr) + stringIntegerEntry.getValue());
+                }
+                else {
+                    mapYear.put(monthStr, stringIntegerEntry.getValue());
+                }
+            }
+        }
+        appendDataOnChart(mapYear);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void view4Years() throws ParseException {
+
+        @SuppressLint("SimpleDateFormat") final DateFormat f = new SimpleDateFormat("dd/MM/yyyy");
+
+        LinkedHashMap<String, Integer> map4Years = new LinkedHashMap<>();
+        int currentYear = Calendar.getInstance().get(Calendar.YEAR);
+        for (int i = currentYear - 4 ; i <= currentYear; i++){
+            map4Years.put(Integer.toString(i), 0);
+        }
+
+        for (Map.Entry<String, Integer> stringIntegerEntry : dateMap.entrySet()) {
+
+            Date date = f.parse((String) stringIntegerEntry.getKey());
+            LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            int year = localDate.getYear();
+
+            //CURRENT YEAR
+            if (year >= Calendar.getInstance().get(Calendar.YEAR) - 4 && year <= Calendar.getInstance().get(Calendar.YEAR)){
+                String yearStr = Integer.toString(year);
+                Log.d("TAG", "view4Years: "+ yearStr + " value "+ stringIntegerEntry.getValue());
+                map4Years.put(yearStr, map4Years.get(yearStr) + stringIntegerEntry.getValue());
+            }
+        }
+        appendDataOnChart(map4Years);
+    }
+
+    private void appendDataOnChart(LinkedHashMap<String, Integer> hashMap){
         final List<String> xLabel = new ArrayList<>();
-        for (Map.Entry<String, Integer> stringIntegerEntry : dateOfMonth.entrySet()){
+        for (Map.Entry<String, Integer> stringIntegerEntry : hashMap.entrySet()){
             xLabel.add(stringIntegerEntry.getKey());
         }
 
@@ -224,7 +327,7 @@ public class UserStat extends Fragment implements OnChartValueSelectedListener {
 
         CombinedData data = new CombinedData();
         LineData lineDatas = new LineData();
-        lineDatas.addDataSet((ILineDataSet) dataChart(dateOfMonth));
+        lineDatas.addDataSet((ILineDataSet) dataChart(hashMap));
 
         data.setData(lineDatas);
 
@@ -235,18 +338,17 @@ public class UserStat extends Fragment implements OnChartValueSelectedListener {
     }
 
 
-    private static DataSet dataChart(LinkedHashMap<String, Integer> dateOfMonth) {
+    private static DataSet dataChart(LinkedHashMap<String, Integer> hashMap) {
 
         LineData d = new LineData();
 
         ArrayList<Entry> entries = new ArrayList<Entry>();
 
         int index = 0;
-        for (Map.Entry<String, Integer> stringIntegerEntry : dateOfMonth.entrySet()){
+        for (Map.Entry<String, Integer> stringIntegerEntry : hashMap.entrySet()){
             entries.add(new Entry(index, stringIntegerEntry.getValue()));
             index++;
         }
-
 
         LineDataSet set = new LineDataSet(entries, "This month");
         set.setColor(Color.GREEN);
@@ -263,5 +365,9 @@ public class UserStat extends Fragment implements OnChartValueSelectedListener {
         d.addDataSet(set);
 
         return set;
+    }
+
+    private String getMonth(int month) {
+        return new DateFormatSymbols().getMonths()[month-1];
     }
 }
