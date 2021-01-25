@@ -118,6 +118,7 @@ public class PostActivity extends AppCompatActivity {
         String[] bloodGroup = getResources().getStringArray(R.array.Blood_Group);
         String[] division_list = getResources().getStringArray(R.array.division_list);
 
+        String toast = "Your post has been created successfully";
         Intent intent = getIntent();
         if (intent.getExtras() != null){
             text1.setText(intent.getStringExtra("Contact"));
@@ -126,9 +127,12 @@ public class PostActivity extends AppCompatActivity {
             spinner2.setSelection(Arrays.asList(division_list).indexOf(intent.getStringExtra("ChosenDivion")));
             Date = intent.getStringExtra("Date");
             Time = intent.getStringExtra("Time");
+            btnpost.setText("EDIT");
+            toast = "You post has been edited successfully";
         }
 
         try {
+            String finalToast = toast;
             btnpost.setOnClickListener(v -> {
                 pd.show();
                 final Query findname = fdb.getReference("users").child(uid);
@@ -156,7 +160,7 @@ public class PostActivity extends AppCompatActivity {
                                 db_ref.child(uid).child("BloodGroup").setValue(spinner1.getSelectedItem().toString());
                                 db_ref.child(uid).child("Time").setValue(Time);
                                 db_ref.child(uid).child("Date").setValue(Date);
-                                Toast.makeText(PostActivity.this, "Your post has been created successfully",
+                                Toast.makeText(PostActivity.this, finalToast,
                                         Toast.LENGTH_LONG).show();
                                 startActivity(new Intent(PostActivity.this, Dashboard.class));
                                 pd.dismiss();
