@@ -1,6 +1,7 @@
 package com.example.blood_donation.fragments;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 
 import android.util.Log;
@@ -19,6 +20,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.blood_donation.R;
+import com.example.blood_donation.activities.PostActivity;
 import com.example.blood_donation.adapters.BloodRequestAdapter;
 import com.example.blood_donation.model.CustomUser;
 import com.google.firebase.auth.FirebaseAuth;
@@ -90,7 +92,7 @@ public class HomeView extends Fragment implements BloodRequestAdapter.OnConfigPo
                         CustomUser customUserData = singlepost.getValue(CustomUser.class);
                         assert customUserData != null;
                         customUserData.setUID(singlepost.getKey());
-                        Log.d("TAG", "onDataChange: " + customUserData.toString());
+                        Log.d("TAG", "onDataChange: " + customUserData.getUID());
                         postLists.add(customUserData);
                         restAdapter.notifyDataSetChanged();
                     }
@@ -135,7 +137,15 @@ public class HomeView extends Fragment implements BloodRequestAdapter.OnConfigPo
 
     @Override
     public void onEditPost(int position) {
-
+        Log.d("TAG", "onEditPost: ");
+        Intent intent = new Intent(getActivity(), PostActivity.class);
+        intent.putExtra("Contact", postLists.get(position).getContact());
+        intent.putExtra("Address", postLists.get(position).getAddress());
+        intent.putExtra("BloodGroup", postLists.get(position).getBloodGroup());
+        intent.putExtra("ChosenDivion", postLists.get(position).getDivision());
+        intent.putExtra("Date", postLists.get(position).getDate());
+        intent.putExtra("Time", postLists.get(position).getTime());
+        startActivity(intent);
     }
 
     @Override

@@ -3,6 +3,7 @@ package com.example.blood_donation.adapters;
 import android.annotation.SuppressLint;
 import android.graphics.Color;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,7 +27,7 @@ public class BloodRequestAdapter extends RecyclerView.Adapter<BloodRequestAdapte
     private List<CustomUser> postLists;
     private OnConfigPost mConfigPost;
 
-    public static class PostHolder extends RecyclerView.ViewHolder implements View.OnClickListener
+    public static class PostHolder extends RecyclerView.ViewHolder
     {
         TextView Name, bloodgroup, Address, contact, posted;
         ImageButton editBtn, deleteBtn;
@@ -35,7 +36,6 @@ public class BloodRequestAdapter extends RecyclerView.Adapter<BloodRequestAdapte
 
         public PostHolder(@NonNull View itemView, OnConfigPost configPost) {
             super(itemView);
-            String cur_ID = FirebaseAuth.getInstance().getUid();
 
 
             Name = itemView.findViewById(R.id.reqstUser);
@@ -46,25 +46,9 @@ public class BloodRequestAdapter extends RecyclerView.Adapter<BloodRequestAdapte
             editBtn = itemView.findViewById(R.id.edit_button);
             deleteBtn = itemView.findViewById(R.id.delete_button);
 
-
-//            if (customUser.getUID().equals(cur_ID)){
-//                editBtn.setVisibility(View.VISIBLE);
-//                deleteBtn.setVisibility(View.VISIBLE);
-//            }
-
             this.configPost = configPost;
-            itemView.setOnClickListener(this);
         }
 
-        @Override
-        public void onClick(View v) {
-//            if (v.getId() == R.id.edit_button){
-//                this.configPost.onEditPost(getAdapterPosition());
-//            }
-//            if (v.getId() == R.id.delete_button){
-//                this.configPost.onDeletePost(getAdapterPosition());
-//            }
-        }
     }
 
     public BloodRequestAdapter(List<CustomUser> postLists, OnConfigPost onConfigPost)
@@ -87,6 +71,7 @@ public class BloodRequestAdapter extends RecyclerView.Adapter<BloodRequestAdapte
     @Override
     public void onBindViewHolder(@NonNull PostHolder postHolder, int i) {
 
+        String cur_ID = FirebaseAuth.getInstance().getUid();
 
         if(i%2==0)
         {
@@ -105,6 +90,27 @@ public class BloodRequestAdapter extends RecyclerView.Adapter<BloodRequestAdapte
         postHolder.contact.setText(customUserData.getContact());
         postHolder.customUser = customUserData;
 
+
+        if (customUserData.getUID().equals(cur_ID)){
+            postHolder.editBtn.setVisibility(View.VISIBLE);
+            postHolder.deleteBtn.setVisibility(View.VISIBLE);
+        }
+
+        postHolder.deleteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                postHolder.editBtn.setVisibility(View.GONE);
+                postHolder.deleteBtn.setVisibility(View.GONE);
+                postHolder.configPost.onDeletePost(i);
+            }
+        });
+
+        postHolder.editBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                postHolder.configPost.onEditPost(i);
+            }
+        });
     }
 
     @Override

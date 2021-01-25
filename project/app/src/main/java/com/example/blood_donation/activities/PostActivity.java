@@ -17,6 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.blood_donation.R;
+import com.example.blood_donation.model.CustomUser;
 import com.example.blood_donation.model.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -27,6 +28,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Arrays;
 import java.util.Calendar;
 
 public class PostActivity extends AppCompatActivity {
@@ -73,6 +75,7 @@ public class PostActivity extends AppCompatActivity {
         int year = cal.get(Calendar.YEAR);
         int hour = cal.get(Calendar.HOUR);
         int min = cal.get(Calendar.MINUTE);
+
         month+=1;
         Time = "";
         Date = "";
@@ -112,6 +115,19 @@ public class PostActivity extends AppCompatActivity {
         fdb = FirebaseDatabase.getInstance();
         db_ref = fdb.getReference("posts");
 
+        String[] bloodGroup = getResources().getStringArray(R.array.Blood_Group);
+        String[] division_list = getResources().getStringArray(R.array.division_list);
+
+        Intent intent = getIntent();
+        if (intent.getExtras() != null){
+            text1.setText(intent.getStringExtra("Contact"));
+            text2.setText(intent.getStringExtra("Address"));
+            spinner1.setSelection(Arrays.asList(bloodGroup).indexOf(intent.getStringExtra("BloodGroup")));
+            spinner2.setSelection(Arrays.asList(division_list).indexOf(intent.getStringExtra("ChosenDivion")));
+            Date = intent.getStringExtra("Date");
+            Time = intent.getStringExtra("Time");
+        }
+
         try {
             btnpost.setOnClickListener(v -> {
                 pd.show();
@@ -143,7 +159,7 @@ public class PostActivity extends AppCompatActivity {
                                 Toast.makeText(PostActivity.this, "Your post has been created successfully",
                                         Toast.LENGTH_LONG).show();
                                 startActivity(new Intent(PostActivity.this, Dashboard.class));
-
+                                pd.dismiss();
                             } else {
                                 Toast.makeText(getApplicationContext(), "Database error.",
                                         Toast.LENGTH_LONG).show();
@@ -177,4 +193,5 @@ public class PostActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
 }

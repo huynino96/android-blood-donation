@@ -67,58 +67,62 @@ public class Login extends AppCompatActivity {
             onDefiningRole(user);
         }
         else {
-            inputEmail = findViewById(R.id.input_username);
-            inputPassword = findViewById(R.id.input_password);
-
-            Button signin = findViewById(R.id.button_login);
-            Button signup = findViewById(R.id.button_register);
-            Button resetpass = findViewById(R.id.button_forgot_password);
-
-            signin.setOnClickListener(v -> {
-                final String email = inputEmail.getText().toString()+"";
-                final String password = inputPassword.getText().toString()+"";
-
-                try {
-                    if(password.length()>0 && email.length()>0) {
-                        pd.show();
-                        mAuth.signInWithEmailAndPassword(email, password)
-                                .addOnCompleteListener(Login.this, task -> {
-                                    if (!task.isSuccessful()) {
-                                        Log.d("TAG", "onCreate: failed" );
-
-                                        Toast.makeText(getApplicationContext(),
-                                                "Authentication Failed",
-                                                Toast.LENGTH_LONG).show();
-                                        Log.v("error", task.getException().getMessage());
-                                        pd.dismiss();
-                                    } else {
-                                        pd.dismiss();
-                                        Log.d("TAG", "onCreate: success" );
-                                        onDefiningRole(mAuth.getCurrentUser());
-                                    }
-                                });
-                    }
-                    else
-                    {
-                        Toast.makeText(getApplicationContext(), "Please fill all the field.", Toast.LENGTH_LONG).show();
-                    }
-
-                } catch (Exception e)
-                {
-                    e.printStackTrace();
-                }
-            });
-
-            signup.setOnClickListener(v -> {
-                Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
-                startActivity(intent);
-            });
-
-            resetpass.setOnClickListener(v -> {
-                Intent intent = new Intent(getApplicationContext(), ResetPassActivity.class);
-                startActivity(intent);
-            });
+            initializeView();
         }
+    }
+
+    private void initializeView(){
+        inputEmail = findViewById(R.id.input_username);
+        inputPassword = findViewById(R.id.input_password);
+
+        Button signin = findViewById(R.id.button_login);
+        Button signup = findViewById(R.id.button_register);
+        Button resetpass = findViewById(R.id.button_forgot_password);
+
+        signin.setOnClickListener(v -> {
+            final String email = inputEmail.getText().toString()+"";
+            final String password = inputPassword.getText().toString()+"";
+
+            try {
+                if(password.length()>0 && email.length()>0) {
+                    pd.show();
+                    mAuth.signInWithEmailAndPassword(email, password)
+                            .addOnCompleteListener(Login.this, task -> {
+                                if (!task.isSuccessful()) {
+                                    Log.d("TAG", "onCreate: failed" );
+
+                                    Toast.makeText(getApplicationContext(),
+                                            "Authentication Failed",
+                                            Toast.LENGTH_LONG).show();
+                                    Log.v("error", task.getException().getMessage());
+                                    pd.dismiss();
+                                } else {
+                                    pd.dismiss();
+                                    Log.d("TAG", "onCreate: success" );
+                                    onDefiningRole(mAuth.getCurrentUser());
+                                }
+                            });
+                }
+                else
+                {
+                    Toast.makeText(getApplicationContext(), "Please fill all the field.", Toast.LENGTH_LONG).show();
+                }
+
+            } catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+        });
+
+        signup.setOnClickListener(v -> {
+            Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
+            startActivity(intent);
+        });
+
+        resetpass.setOnClickListener(v -> {
+            Intent intent = new Intent(getApplicationContext(), ResetPassActivity.class);
+            startActivity(intent);
+        });
     }
 
     public void changeTextStatus(boolean isConnected) {
@@ -163,27 +167,32 @@ public class Login extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 //pd.show();
                 User user = snapshot.getValue(User.class);
-                String[] userArr = {user.getName()};
-                fadingUserTextView.setTexts(userArr);
-                fadingUserTextView.setTimeout(30, TimeUnit.MILLISECONDS);
-                //If admin show the admin site
-                Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (user.getRole() != null) {
-                            if (user.getRole().equals("admin")) {
-                                Intent intent = new Intent(getApplicationContext(), Admin.class);
-                                startActivity(intent);
-                                finish();
-                            } else {
-                                Intent intent = new Intent(getApplicationContext(), Dashboard.class);
-                                startActivity(intent);
-                                finish();
+                if (user != null){
+                    String[] userArr = {user.getName()};
+                    fadingUserTextView.setTexts(userArr);
+                    fadingUserTextView.setTimeout(30, TimeUnit.MILLISECONDS);
+                    //If admin show the admin site
+                    Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (user.getRole() != null) {
+                                if (user.getRole().equals("admin")) {
+                                    Intent intent = new Intent(getApplicationContext(), Admin.class);
+                                    startActivity(intent);
+                                    finish();
+                                } else {
+                                    Intent intent = new Intent(getApplicationContext(), Dashboard.class);
+                                    startActivity(intent);
+                                    finish();
+                                }
                             }
                         }
-                    }
-                }, 1000);
+                    }, 1000);
+                }else {
+                    setContentView(R.layout.activity_login);
+                    initializeView();
+                }
             }
 
             @Override

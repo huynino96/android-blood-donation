@@ -81,8 +81,6 @@ public class SearchDonorAdapter extends RecyclerView.Adapter<SearchDonorAdapter.
         postHolder.Address.setText("Address: "+donorData.getAddress());
         postHolder.totaldonate.setText("Total Donation: "+donorData.getTotalDonate()+" times");
         postHolder.posted.setText("Last Donation: "+donorData.getLastDonate());
-
-
     }
 
     @Override
