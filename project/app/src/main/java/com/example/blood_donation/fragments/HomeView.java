@@ -43,9 +43,14 @@ public class HomeView extends Fragment implements BloodRequestAdapter.OnConfigPo
     private BloodRequestAdapter restAdapter;
     private List<CustomUser> postLists;
     private ProgressDialog pd;
+    private Boolean isAdmin ;
 
     public HomeView() {
+        isAdmin = false;
+    }
 
+    public HomeView(Boolean isAdmin){
+        isAdmin = true;
     }
 
     @Override
@@ -67,7 +72,7 @@ public class HomeView extends Fragment implements BloodRequestAdapter.OnConfigPo
         mAuth = FirebaseAuth.getInstance();
         getActivity().setTitle("Blood Point");
 
-        restAdapter = new BloodRequestAdapter(postLists, this);
+        restAdapter = new BloodRequestAdapter(postLists, this, true);
         RecyclerView.LayoutManager pmLayout = new LinearLayoutManager(getContext());
         recentPosts.setLayoutManager(pmLayout);
         recentPosts.setItemAnimator(new DefaultItemAnimator());
@@ -112,7 +117,6 @@ public class HomeView extends Fragment implements BloodRequestAdapter.OnConfigPo
 
             }
         });
-
     }
 
     @Override

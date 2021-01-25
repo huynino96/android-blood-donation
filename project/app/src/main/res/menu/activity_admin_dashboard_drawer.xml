@@ -18,6 +18,11 @@
             android:icon="@drawable/ic_baseline_pie_chart_24"
             android:title="@string/chart_blood" />
         <item
+            android:id="@+id/Post"
+            android:icon="@drawable/ic_baseline_amp_stories_24"
+            android:title="@string/view_post" />
+
+        <item
             android:id="@+id/logout"
             android:icon="@drawable/ic_logout"
             android:title="@string/lgout" />

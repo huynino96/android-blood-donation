@@ -76,6 +76,7 @@
     <string name="user_list">User List</string>
     <string name="statUser">Chart User</string>
     <string name="chart_blood">Chart Blood</string>
+    <string name="view_post">View Post</string>
 
 
 </resources>

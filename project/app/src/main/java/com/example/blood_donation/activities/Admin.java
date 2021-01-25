@@ -25,6 +25,7 @@ import com.example.blood_donation.broadcast.MyApplication;
 import com.example.blood_donation.fragments.AboutUs;
 import com.example.blood_donation.fragments.BloodInfo;
 import com.example.blood_donation.fragments.BloodStat;
+import com.example.blood_donation.fragments.HomeView;
 import com.example.blood_donation.fragments.UserStat;
 import com.example.blood_donation.fragments.UserList;
 import com.example.blood_donation.model.User;
@@ -204,6 +205,9 @@ public class Admin extends AppCompatActivity implements NavigationView.OnNavigat
         }
         else if (id == R.id.BloodStat){
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentcontainer, new BloodStat()).commit();
+        }
+        else if (id == R.id.Post){
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentcontainer, new HomeView(true)).commit();
         }
         else if (id == R.id.logout) {
             mAuth.signOut();

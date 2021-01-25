@@ -26,6 +26,7 @@ public class BloodRequestAdapter extends RecyclerView.Adapter<BloodRequestAdapte
 
     private List<CustomUser> postLists;
     private OnConfigPost mConfigPost;
+    private Boolean isAdmin;
 
     public static class PostHolder extends RecyclerView.ViewHolder
     {
@@ -55,6 +56,14 @@ public class BloodRequestAdapter extends RecyclerView.Adapter<BloodRequestAdapte
     {
         this.postLists = postLists;
         this.mConfigPost = onConfigPost;
+        this.isAdmin = false;
+    }
+
+    public BloodRequestAdapter(List<CustomUser> postLists, OnConfigPost onConfigPost, Boolean isAdmin)
+    {
+        this.postLists = postLists;
+        this.mConfigPost = onConfigPost;
+        this.isAdmin = true;
     }
 
     @NonNull
@@ -90,9 +99,12 @@ public class BloodRequestAdapter extends RecyclerView.Adapter<BloodRequestAdapte
         postHolder.contact.setText(customUserData.getContact());
         postHolder.customUser = customUserData;
 
-
         if (customUserData.getUID().equals(cur_ID)){
             postHolder.editBtn.setVisibility(View.VISIBLE);
+            postHolder.deleteBtn.setVisibility(View.VISIBLE);
+        }
+
+        if (isAdmin){
             postHolder.deleteBtn.setVisibility(View.VISIBLE);
         }
 

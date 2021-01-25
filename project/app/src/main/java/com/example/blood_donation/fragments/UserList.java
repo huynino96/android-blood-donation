@@ -82,6 +82,9 @@ public class UserList extends Fragment {
 
                     for (DataSnapshot singlepost : dataSnapshot.getChildren()) {
                         User customUserData = singlepost.getValue(User.class);
+                        //Do not add admin in the user list
+                        if (customUserData.getRole() == null)
+                            continue;
                         userList.add(customUserData);
                         userAdapter.notifyDataSetChanged();
                     }
