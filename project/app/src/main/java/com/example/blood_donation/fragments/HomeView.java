@@ -31,9 +31,10 @@ import com.google.firebase.database.ValueEventListener;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
-public class HomeView extends Fragment {
+public class HomeView extends Fragment implements BloodRequestAdapter.OnConfigPost {
 
     private DatabaseReference donor_ref;
     FirebaseAuth mAuth;
@@ -64,7 +65,7 @@ public class HomeView extends Fragment {
         mAuth = FirebaseAuth.getInstance();
         getActivity().setTitle("Blood Point");
 
-        restAdapter = new BloodRequestAdapter(postLists);
+        restAdapter = new BloodRequestAdapter(postLists, this);
         RecyclerView.LayoutManager pmLayout = new LinearLayoutManager(getContext());
         recentPosts.setLayoutManager(pmLayout);
         recentPosts.setItemAnimator(new DefaultItemAnimator());
@@ -87,6 +88,9 @@ public class HomeView extends Fragment {
 
                     for (DataSnapshot singlepost : dataSnapshot.getChildren()) {
                         CustomUser customUserData = singlepost.getValue(CustomUser.class);
+                        assert customUserData != null;
+                        customUserData.setUID(singlepost.getKey());
+                        Log.d("TAG", "onDataChange: " + customUserData.toString());
                         postLists.add(customUserData);
                         restAdapter.notifyDataSetChanged();
                     }
@@ -127,5 +131,46 @@ public class HomeView extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
+    }
+
+    @Override
+    public void onEditPost(int position) {
+
+    }
+
+    @Override
+    public void onDeletePost(int position) {
+        Query allposts = donor_ref.child("posts");
+        pd.show();
+        allposts.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                if(dataSnapshot.exists()) {
+
+                    for (DataSnapshot singlepost : dataSnapshot.getChildren()) {
+                        if (singlepost.getKey().equals(postLists.get(position).getUID())){
+                            singlepost.getRef().removeValue();
+                        }
+                    }
+                    pd.dismiss();
+                    postLists.remove(position);
+                    restAdapter.notifyDataSetChanged();
+                }
+                else
+                {
+                    Toast.makeText(getActivity(), "Database is empty now!",
+                            Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                Log.d("User", databaseError.getMessage());
+
+            }
+        });
+
     }
 }

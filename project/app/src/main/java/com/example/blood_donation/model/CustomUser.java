@@ -6,6 +6,7 @@ public class CustomUser implements Serializable {
     private String Address, Division, Contact;
     private String Name, BloodGroup;
     private String Time, Date;
+    private String UID;
 
 
     public CustomUser() {
@@ -76,5 +77,13 @@ public class CustomUser implements Serializable {
 
     public void setDate(String date) {
         this.Date = date;
+    }
+
+    public String getUID() {
+        return UID;
+    }
+
+    public void setUID(String UID) {
+        this.UID = UID;
     }
 }
