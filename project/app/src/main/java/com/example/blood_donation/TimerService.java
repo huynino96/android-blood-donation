@@ -66,7 +66,7 @@ public class TimerService extends Service {
                                 NotificationManager manager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
                                 NotificationCompat.Builder builder = new NotificationCompat.Builder(TimerService.this, "My Notification")
                                         .setContentTitle("Blood Point")
-                                        .setContentText("It has been more 120 days since your last blood donation.\nYou may proceed to donate again")
+                                        .setContentText("Cool down time has ended. You may proceed blood donating again")
                                         .setSmallIcon(R.mipmap.blood_bank_icon_round);
 
                                 manager.notify(1, builder.build());
@@ -110,7 +110,7 @@ public class TimerService extends Service {
 
         notificationManager.createNotificationChannel(mChannel);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
-                .setSmallIcon(R.mipmap.blood_bank_icon_round)
+                .setSmallIcon(R.drawable.notification_icon)
                 .setContentTitle("Blood Point")
                 .setContentText("It has been more 120 days since your last blood donation.\nYou may proceed to donate again")
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
