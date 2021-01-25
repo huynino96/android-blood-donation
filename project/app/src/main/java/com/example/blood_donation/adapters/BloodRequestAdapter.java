@@ -47,10 +47,10 @@ public class BloodRequestAdapter extends RecyclerView.Adapter<BloodRequestAdapte
             deleteBtn = itemView.findViewById(R.id.delete_button);
 
 
-            if (customUser.getUID().equals(cur_ID)){
-                editBtn.setVisibility(View.VISIBLE);
-                deleteBtn.setVisibility(View.VISIBLE);
-            }
+//            if (customUser.getUID().equals(cur_ID)){
+//                editBtn.setVisibility(View.VISIBLE);
+//                deleteBtn.setVisibility(View.VISIBLE);
+//            }
 
             this.configPost = configPost;
             itemView.setOnClickListener(this);
@@ -58,12 +58,12 @@ public class BloodRequestAdapter extends RecyclerView.Adapter<BloodRequestAdapte
 
         @Override
         public void onClick(View v) {
-            if (v.getId() == R.id.edit_button){
-                this.configPost.onEditPost(getAdapterPosition());
-            }
-            if (v.getId() == R.id.delete_button){
-                this.configPost.onDeletePost(getAdapterPosition());
-            }
+//            if (v.getId() == R.id.edit_button){
+//                this.configPost.onEditPost(getAdapterPosition());
+//            }
+//            if (v.getId() == R.id.delete_button){
+//                this.configPost.onDeletePost(getAdapterPosition());
+//            }
         }
     }
 
