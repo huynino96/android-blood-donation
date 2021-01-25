@@ -1,5 +1,6 @@
 package com.example.blood_donation;
 
+import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.Service;
@@ -58,7 +59,18 @@ public class TimerService extends Service {
                         long diff = TimeUnit.DAYS.convert(diffMilli, TimeUnit.MILLISECONDS);
                         Log.d(getApplicationContext() + "", "Date after last donate: " + diff);
                         if (diff >= 10) {
-                            sendNotification();
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                sendNotification();
+                            }
+                            else{
+                                NotificationManager manager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+                                NotificationCompat.Builder builder = new NotificationCompat.Builder(TimerService.this, "My Notification")
+                                        .setContentTitle("Blood Point")
+                                        .setContentText("It has been more 120 days since your last blood donation.\nYou may proceed to donate again")
+                                        .setSmallIcon(R.mipmap.blood_bank_icon_round);
+
+                                manager.notify(1, builder.build());
+                            }
                             Log.d(getApplicationContext() + "", "Notification called");
                         }
 
@@ -98,7 +110,7 @@ public class TimerService extends Service {
 
         notificationManager.createNotificationChannel(mChannel);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
-                .setSmallIcon(R.drawable.notification_icon)
+                .setSmallIcon(R.mipmap.blood_bank_icon_round)
                 .setContentTitle("Blood Point")
                 .setContentText("It has been more 120 days since your last blood donation.\nYou may proceed to donate again")
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
