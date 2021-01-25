@@ -72,7 +72,7 @@ public class HomeView extends Fragment implements BloodRequestAdapter.OnConfigPo
         mAuth = FirebaseAuth.getInstance();
         getActivity().setTitle("Blood Point");
 
-        restAdapter = new BloodRequestAdapter(postLists, this, true);
+        restAdapter = new BloodRequestAdapter(postLists, this, isAdmin);
         RecyclerView.LayoutManager pmLayout = new LinearLayoutManager(getContext());
         recentPosts.setLayoutManager(pmLayout);
         recentPosts.setItemAnimator(new DefaultItemAnimator());

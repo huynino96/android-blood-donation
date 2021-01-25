@@ -52,18 +52,12 @@ public class BloodRequestAdapter extends RecyclerView.Adapter<BloodRequestAdapte
 
     }
 
-    public BloodRequestAdapter(List<CustomUser> postLists, OnConfigPost onConfigPost)
-    {
-        this.postLists = postLists;
-        this.mConfigPost = onConfigPost;
-        this.isAdmin = false;
-    }
 
     public BloodRequestAdapter(List<CustomUser> postLists, OnConfigPost onConfigPost, Boolean isAdmin)
     {
         this.postLists = postLists;
         this.mConfigPost = onConfigPost;
-        this.isAdmin = true;
+        this.isAdmin = isAdmin;
     }
 
     @NonNull
