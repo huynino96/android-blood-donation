@@ -34,6 +34,7 @@ public class TimerService extends Service {
     private Date lastDonateDate;
     private SimpleDateFormat sdf;
     private final Timer t = new Timer();
+    private final int DATE_DIFFERENT = 120;
     // Check date every 86400 seconds (1 day)
     private final int DATE_CHECK_INTERVAL = 86400;
     @Nullable
@@ -58,7 +59,7 @@ public class TimerService extends Service {
                         long diffMilli = Math.abs(currentDate.getTime() - lastDonateDate.getTime());
                         long diff = TimeUnit.DAYS.convert(diffMilli, TimeUnit.MILLISECONDS);
                         Log.d(getApplicationContext() + "", "Date after last donate: " + diff);
-                        if (diff >= 10) {
+                        if (diff >= DATE_DIFFERENT) {
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                                 sendNotification();
                             }

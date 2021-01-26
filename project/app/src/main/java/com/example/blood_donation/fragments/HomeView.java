@@ -49,8 +49,8 @@ public class HomeView extends Fragment implements BloodRequestAdapter.OnConfigPo
         isAdmin = false;
     }
 
-    public HomeView(Boolean isAdmin){
-        isAdmin = true;
+    public HomeView(Boolean isAdminHome){
+        isAdmin = isAdminHome;
     }
 
     @Override
