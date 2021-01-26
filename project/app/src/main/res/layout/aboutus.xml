@@ -13,6 +13,7 @@
         android:layout_height="140dp" />
 
     <TextView
+        android:textColor="@color/primaryText"
         android:layout_margin="10dp"
         android:gravity="left"
         android:padding="20dp"

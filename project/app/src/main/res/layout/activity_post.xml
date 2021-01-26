@@ -23,6 +23,7 @@
             <TextView
                 android:padding="5dp"
                 android:text="Contact:"
+                android:textColor="@color/primaryText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <EditText
@@ -30,6 +31,8 @@
                 android:padding="5dp"
                 android:inputType="phone"
                 android:hint="@string/mobile"
+                android:textColor="@color/primaryText"
+                android:textColorHint="@color/hintText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </LinearLayout>
@@ -43,12 +46,15 @@
             <TextView
                 android:padding="5dp"
                 android:text="Location:"
+                android:textColor="@color/primaryText"
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <EditText
                 android:id="@+id/getLocation"
                 android:padding="5dp"
                 android:inputType="text"
+                android:textColorHint="@color/hintText"
                 android:hint="Enter location of place"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
@@ -63,6 +69,7 @@
             <TextView
                 android:padding="5dp"
                 android:text="Blood Group:"
+                android:textColor="@color/primaryText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <Spinner
@@ -83,6 +90,7 @@
                 android:padding="5dp"
                 android:text="Choose Division:"
                 android:layout_width="wrap_content"
+                android:textColor="@color/primaryText"
                 android:layout_height="wrap_content" />
             <Spinner
                 android:id="@+id/SpinnerDivision"
@@ -99,6 +107,7 @@
             android:gravity="center"
             android:id="@+id/postbtn"
             android:text="Post"
+            android:textColor="@color/primaryText"
             android:backgroundTint="@color/primary_dark"
             android:background="@drawable/signin_btn"
             android:layout_width="wrap_content"

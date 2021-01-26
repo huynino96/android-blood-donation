@@ -29,6 +29,7 @@
                 android:id="@+id/userName"
                 android:text="Name: Alamin Hossain"
                 android:layout_width="match_parent"
+                android:textColor="@color/primaryText"
                 android:layout_height="wrap_content" />
             <LinearLayout
                 android:orientation="horizontal"
@@ -37,11 +38,13 @@
                 <TextView
                     android:text="Contact: "
                     android:layout_width="wrap_content"
+                    android:textColor="@color/primaryText"
                     android:layout_height="wrap_content" />
                 <TextView
                     android:id="@+id/userContact"
                     android:text="+8801234567890"
                     android:layout_width="match_parent"
+                    android:textColor="@color/primaryText"
                     android:layout_height="wrap_content" />
             </LinearLayout>
 
@@ -51,11 +54,13 @@
                 android:layout_height="wrap_content">
                 <TextView
                     android:text="BloodGroup: "
+                    android:textColor="@color/primaryText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <TextView
                     android:id="@+id/userBG"
                     android:text="A+"
+                    android:textColor="@color/primaryText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </LinearLayout>
@@ -63,6 +68,7 @@
             <TextView
                 android:id="@+id/userAddress"
                 android:text="Address: Kushtia"
+                android:textColor="@color/primaryText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -72,11 +78,13 @@
                 android:layout_height="wrap_content">
                 <TextView
                     android:text="Division: "
+                    android:textColor="@color/primaryText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <TextView
                     android:id="@+id/userDivision"
                     android:text="115 Hospital"
+                    android:textColor="@color/primaryText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </LinearLayout>

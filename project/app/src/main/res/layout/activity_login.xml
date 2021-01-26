@@ -47,20 +47,22 @@
         </LinearLayout>
 
         <EditText
-            android:textColor="@android:color/black"
+            android:textColor="@color/primaryText"
             android:id="@+id/input_username"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textEmailAddress"
-            android:hint="@string/prompt_email" />
+            android:hint="@string/prompt_email"
+            android:textColorHint="@color/hintText"/>
 
         <EditText
-            android:textColor="@android:color/black"
+            android:textColor="@color/primaryText"
             android:id="@+id/input_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
-            android:hint="@string/prompt_password" />
+            android:hint="@string/prompt_password"
+            android:textColorHint="@color/hintText" />
 
         <Button
             android:textAllCaps="false"
@@ -70,7 +72,7 @@
             android:layout_marginTop="20dp"
             android:textStyle="bold"
             android:background="@drawable/signin_btn"
-            android:textColor="@color/primary"
+            android:textColor="@color/primaryText"
             android:text="@string/action_sign_in_short" />
 
         <Button
@@ -80,7 +82,7 @@
             android:layout_marginTop="20dp"
             android:layout_height="wrap_content"
             android:padding="2dp"
-            android:textColor="@android:color/black"
+            android:textColor="@color/primaryText"
             android:background="@drawable/transparent_black_ten_percent"
             android:text="@string/register" />
 
@@ -90,7 +92,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="2dp"
-            android:textColor="@android:color/black"
+            android:textColor="@color/primaryText"
             android:background="@drawable/transparent_black_ten_percent"
             android:text="@string/forgotpass" />
 

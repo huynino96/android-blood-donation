@@ -54,12 +54,13 @@
 
         </LinearLayout>
         <TextView
-            android:visibility="gone"
+            android:visibility="visible"
             android:layout_gravity="center_horizontal"
             android:id="@+id/nextDonate"
             android:gravity="center"
             android:backgroundTint="@color/primary_dark"
             android:background="@drawable/circle"
+            android:textColor="@android:color/white"
             android:text="34 days"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
@@ -95,6 +96,7 @@
                     android:backgroundTint="@color/primary_dark"
                     android:background="@drawable/circle"
                     android:text="1 times"
+                    android:textColor="@android:color/white"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </LinearLayout>
@@ -121,6 +123,7 @@
                     android:backgroundTint="@color/primary_dark"
                     android:background="@drawable/circle"
                     android:text="12/12/2018"
+                    android:textColor="@android:color/white"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </LinearLayout>

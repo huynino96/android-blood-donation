@@ -35,7 +35,8 @@
             android:paddingTop="@dimen/nav_header_vertical_spacing"
             android:text="@string/nav_header_title"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:textColor="@android:color/widget_edittext_dark"
+            android:textColorHint="@color/hintText"
+            android:textColor="@color/primaryText"
             android:textStyle="bold" />
 
         <TextView
@@ -44,8 +45,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:text="@string/nav_header_subtitle"
-            android:textColor="@android:color/widget_edittext_dark" />
+            android:textColor="@color/primaryText"
+            android:text="@string/nav_header_subtitle"/>
 
     </LinearLayout>
 

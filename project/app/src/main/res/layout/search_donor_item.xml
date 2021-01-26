@@ -26,6 +26,7 @@
             <TextView
                 android:id="@+id/donorName"
                 android:text="Name: Alamin Hossain"
+                android:textColor="@color/primaryText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
             <LinearLayout
@@ -35,10 +36,12 @@
                 <TextView
                     android:text="Contact: "
                     android:layout_width="wrap_content"
+                    android:textColor="@color/primaryText"
                     android:layout_height="wrap_content" />
                 <TextView
                     android:id="@+id/donorContact"
                     android:text="+8801234567890"
+                    android:textColor="@color/primaryText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </LinearLayout>
@@ -47,17 +50,20 @@
                 android:id="@+id/donorAddress"
                 android:text="Address: Kushtia"
                 android:layout_width="match_parent"
+                android:textColor="@color/primaryText"
                 android:layout_height="wrap_content" />
 
             <TextView
                 android:id="@+id/totaldonate"
                 android:text="Total Donation: 0 times"
+                android:textColor="@color/primaryText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
             <TextView
                 android:id="@+id/lastdonate"
                 android:text="Last Donation: not yet donated!"
                 android:layout_width="match_parent"
+                android:textColor="@color/primaryText"
                 android:layout_height="wrap_content" />
         </LinearLayout>
 
