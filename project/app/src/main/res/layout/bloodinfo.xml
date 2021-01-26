@@ -2,7 +2,10 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:background="@color/primary"
-    android:layout_margin="16dp"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:showIn="@layout/blood_info_appbar"
     android:layout_height="match_parent">
 
     <LinearLayout
@@ -76,6 +79,27 @@
             android:layout_marginRight="10dp"
             android:padding="10dp"/>
 
+        <TextView
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:backgroundTint="@color/primary_dark"
+            android:background="@drawable/border"
+            android:layout_width="match_parent"
+            android:textColor="@color/primaryText"
+            android:layout_height="wrap_content"
+            android:text="@string/blood_transfusion"
+            android:textSize="20sp"
+            android:padding="8dp"
+            android:layout_margin="8dp"/>
+
+
+        <pl.droidsonroids.gif.GifImageView
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/blood_type"/>
     </LinearLayout>
 
 </ScrollView>
