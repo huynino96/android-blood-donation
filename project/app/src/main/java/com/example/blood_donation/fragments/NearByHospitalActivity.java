@@ -4,12 +4,17 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Build;
+
 import android.os.Bundle;
+
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Toast;
+
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,24 +25,30 @@ import androidx.fragment.app.Fragment;
 import com.example.blood_donation.R;
 import com.example.blood_donation.model.GetNearbyLocation;
 import com.google.android.gms.common.ConnectionResult;
+
+import com.google.android.gms.common.api.GoogleApi;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
 import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
-import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
+
 import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.SettingsClient;
+
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 
 public class NearByHospitalActivity extends Fragment implements
@@ -56,7 +67,7 @@ public class NearByHospitalActivity extends Fragment implements
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         view = inflater.inflate(R.layout.near_by_hospitals, container, false);
-        getActivity().setTitle("Nearest Hospitals");
+        getActivity().setTitle("Nearest hospitals");
 
         return view;
     }
@@ -195,11 +206,11 @@ public class NearByHospitalActivity extends Fragment implements
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(latLng);
         markerOptions.title("Current Location");
-        Marker currentLocationMarker = mMap.addMarker(markerOptions);
+        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+        mMap.addMarker(markerOptions);
+
         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 16f);
         mMap.animateCamera(cameraUpdate);
-
-
     }
 
     @Override
