@@ -207,11 +207,10 @@ public class NearByHospitalActivity extends Fragment implements
         markerOptions.position(latLng);
         markerOptions.title("Current Location");
         markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
-        Marker currentLocationMarker = mMap.addMarker(markerOptions);
+        mMap.addMarker(markerOptions);
+
         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 16f);
         mMap.animateCamera(cameraUpdate);
-
-
     }
 
     @Override
