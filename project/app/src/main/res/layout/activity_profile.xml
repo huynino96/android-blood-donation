@@ -44,7 +44,7 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/displayName"
                 android:inputType="text"
-                android:textColor="@android:color/black" />
+                android:textColor="@color/primaryText" />
         </LinearLayout>
         <LinearLayout
             android:padding="3dp"
@@ -59,11 +59,12 @@
                 android:text="@string/gender" />
 
             <Spinner
-                android:layout_marginStart="67dp"
                 android:id="@+id/gender"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="67dp"
                 android:layout_weight="1"
+                android:background="#FFFFFF"
                 android:entries="@array/gender">
 
             </Spinner>
@@ -81,11 +82,12 @@
                 android:text="@string/blood_group" />
 
             <Spinner
-                android:layout_marginStart="13dp"
                 android:id="@+id/inputBloodGroup"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="13dp"
                 android:layout_weight="1"
+                android:background="#FFFFFF"
                 android:entries="@array/Blood_Group">
 
             </Spinner>
@@ -108,7 +110,7 @@
             android:textColorHint="@color/hintText"
             android:hint="@string/mobile"
             android:inputType="text"
-            android:textColor="@android:color/black" />
+            android:textColor="@color/primaryText" />
     </LinearLayout>
 
     <LinearLayout
@@ -129,7 +131,7 @@
             android:hint="@string/userAddress"
             android:textColorHint="@color/hintText"
             android:inputType="text"
-            android:textColor="@android:color/black" />
+            android:textColor="@color/primaryText" />
     </LinearLayout>
 
         <LinearLayout
@@ -145,13 +147,13 @@
                 android:text="@string/division" />
 
             <Spinner
-                android:layout_marginStart="42dp"
                 android:id="@+id/inputDivision"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="42dp"
                 android:layout_weight="1"
-                android:entries="@array/division_list">
-            </Spinner>
+                android:background="#FFFFFF"
+                android:entries="@array/division_list"></Spinner>
         </LinearLayout>
 
         <EditText
@@ -161,7 +163,7 @@
             android:hint="@string/prompt_email"
             android:textColorHint="@color/hintText"
             android:inputType="textEmailAddress"
-            android:textColor="@android:color/black" />
+            android:textColor="@color/primaryText" />
 
         <EditText
             android:id="@+id/input_password"
@@ -170,7 +172,7 @@
             android:hint="@string/prompt_password"
             android:inputType="textPassword"
             android:textColorHint="@color/hintText"
-            android:textColor="@android:color/black" />
+            android:textColor="@color/primaryText" />
 
         <EditText
             android:id="@+id/input_password_confirm"
@@ -179,7 +181,7 @@
             android:hint="@string/prompt_confirm_password"
             android:inputType="textPassword"
             android:textColorHint="@color/hintText"
-            android:textColor="@android:color/black" />
+            android:textColor="@color/primaryText" />
         <CheckBox
             android:id="@+id/checkbox"
             android:text="@string/mark_this_to_be_a_donor"

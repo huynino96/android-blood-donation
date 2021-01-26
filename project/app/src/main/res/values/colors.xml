@@ -3,9 +3,9 @@
     <color name="colorPrimary">#d50000</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
-    <color name="primaryText">#000000</color>
-    <color name="hintText">#b3b3b3</color>-->
-    <color name="primary">#FFFFFF</color>
+    <color name="primaryText">#FFFFFF</color>
+    <color name="hintText">#b3b3b3</color>
+    <color name="primary">#000000</color>
     <color name="primary_dark">#c13f31</color>
     <color name="transparent_black_ten_percent">#1A000000</color>
 </resources>
@@ -15,12 +15,14 @@
 <!--    <color name="colorPrimary">#d50000</color>-->
 <!--    <color name="colorPrimaryDark">#00574B</color>-->
 <!--    <color name="colorAccent">#D81B60</color>-->
-<!--    <color name="primaryText">#FFFFFF</color>-->
-<!--    <color name="hintText">#b3b3b3</color>-->
-<!--    <color name="primary">#000000</color>-->
+<!--    <color name="primaryText">#000000</color>-->
+<!--    <color name="hintText">#b3b3b3</color>&ndash;&gt;-->
+<!--    <color name="primary">#FFFFFF</color>-->
 <!--    <color name="primary_dark">#c13f31</color>-->
 <!--    <color name="transparent_black_ten_percent">#1A000000</color>-->
 <!--</resources>-->
+
+
 
 
 

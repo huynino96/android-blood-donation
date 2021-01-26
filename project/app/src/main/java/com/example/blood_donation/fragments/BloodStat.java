@@ -117,7 +117,7 @@ public class BloodStat extends Fragment {
         List<PieEntry> yVals1 = new ArrayList<PieEntry>();
         for (Map.Entry<String, Integer> stringIntegerEntry : bloodMap.entrySet()) {
             if (stringIntegerEntry.getValue() != 0){
-                yVals1.add(new PieEntry(stringIntegerEntry.getValue(), stringIntegerEntry.getKey()));
+                yVals1.add( new PieEntry(stringIntegerEntry.getValue(), stringIntegerEntry.getKey()));
             }
         }
 
@@ -125,7 +125,7 @@ public class BloodStat extends Fragment {
         PieDataSet dataSet = new PieDataSet(yVals1, "Blood type");
         dataSet.setColors(ColorTemplate.COLORFUL_COLORS);
         dataSet.setValueTextSize(20f);
-        dataSet.setValueTextColor(Color.BLACK);
+        dataSet.setValueTextColor(R.color.primaryText);
 
         // instantiate pie data object now
         PieData pieData = new PieData(dataSet);
