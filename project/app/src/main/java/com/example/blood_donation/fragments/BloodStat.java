@@ -1,14 +1,12 @@
 package com.example.blood_donation.fragments;
 
 import android.app.ProgressDialog;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -19,11 +17,9 @@ import androidx.fragment.app.Fragment;
 import com.example.blood_donation.R;
 import com.example.blood_donation.model.User;
 import com.github.mikephil.charting.charts.PieChart;
-import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
-import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -32,9 +28,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -122,7 +116,7 @@ public class BloodStat extends Fragment {
         }
 
         // create pie data set
-        PieDataSet dataSet = new PieDataSet(yVals1, "Blood type");
+        PieDataSet dataSet = new PieDataSet(yVals1, "Blood Type");
         dataSet.setColors(ColorTemplate.COLORFUL_COLORS);
         dataSet.setValueTextSize(20f);
         dataSet.setValueTextColor(R.color.primaryText);
@@ -133,7 +127,7 @@ public class BloodStat extends Fragment {
         Log.d("TAG", "onConfigPieChart: "+ dataSet.toString());
         pieChart.setData(pieData);
         pieChart.getDescription().setEnabled(false);
-        pieChart.setCenterText("Blood groups");
+        pieChart.setCenterText("Blood Groups");
         pieChart.animate();
 
         // update pie chart
