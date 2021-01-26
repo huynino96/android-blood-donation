@@ -6,15 +6,12 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-
 import android.util.Log;
-import android.view.View;
-
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
-
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -32,7 +29,6 @@ import com.example.blood_donation.fragments.BloodInfo;
 import com.example.blood_donation.fragments.HomeView;
 import com.example.blood_donation.fragments.NearByHospitalActivity;
 import com.example.blood_donation.fragments.SearchDonor;
-import com.example.blood_donation.fragments.UserList;
 import com.example.blood_donation.model.Donor;
 import com.example.blood_donation.model.User;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -134,7 +130,7 @@ public class Dashboard extends AppCompatActivity
 
                         @Override
                         public void onCancelled(@NonNull DatabaseError error) {
-                            Log.d(getApplicationContext() + "", "This user has no donate info");
+                            Log.d(getApplicationContext() + "", "This user has no donation info.");
                         }
                     });
                 }

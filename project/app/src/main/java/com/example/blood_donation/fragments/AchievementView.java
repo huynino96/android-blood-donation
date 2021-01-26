@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -202,7 +201,7 @@ public class AchievementView extends Fragment {
                                 {
                                     LinearLayout linearLayout = view.findViewById(R.id.donorAchiev);
                                     linearLayout.setVisibility(View.GONE);
-                                    TextView tv  = view.findViewById(R.id.ShowInof);
+                                    TextView tv  = view.findViewById(R.id.ShowInfo);
                                     tv.setVisibility(View.VISIBLE);
                                     Toast.makeText(getActivity(), "Update your profile to be a donor first.", Toast.LENGTH_LONG)
                                             .show();

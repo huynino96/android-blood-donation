@@ -20,21 +20,21 @@
     <string name="forgotpass">Forgot password?</string>
     <string name="prompt_password">Password</string>
     <string name="prompt_confirm_password">Confirm password</string>
-    <string name="action_sign_in_short">Sign in</string>
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="action_sign_in_short">Sign In</string>
+    <string name="navigation_drawer_open">Open Navigation Drawer</string>
+    <string name="navigation_drawer_close">Close Navigation Drawer</string>
     <string name="nav_header_title">Welcome</string>
     <string name="nav_header_subtitle">android.studio@android.com</string>
-    <string name="nav_header_desc">Navigation header</string>
+    <string name="nav_header_desc">Navigation Header</string>
     <string name="reset">Reset</string>
     <string name="displayName">Full Name</string>
-    <string name="mobile">Mobile No</string>
+    <string name="mobile">Mobile no.</string>
     <string name="userAddress">Address</string>
-    <string name="nearH">Find nearest Hospitals</string>
+    <string name="nearH">Find Nearest Hospitals</string>
     <string name="fndBlood">Find Blood Donor</string>
-    <string name="lgout">Log out</string>
-    <string name="devinfo">About us</string>
-    <string name="bloodinfo">Blood Info</string>
+    <string name="lgout">Log Out</string>
+    <string name="devinfo">About Us</string>
+    <string name="bloodinfo">Donor Eligibility</string>
 
 
     <string-array name="division_list">
@@ -68,14 +68,14 @@
         <item>O-</item>
     </array>
 
-    <string name="eligibility_">Eligibility Requirements</string>
-    <string name="female_">If you are female, you must:\n Be healthy and feeling well\nBe at least 18 years old to 60 years old\nBe at least weigh at least 42kg.</string>
-    <string name="male_">If you are male, you must:\nBe healthy and feeling well\nBe at least 18 years old to 60 years old\nBe at least weigh at least 45kg.</string>
-    <string name="info_">Giving blood saves lives</string>
-    <string name="aboutus">This is blood donation project</string>
+    <string name="eligibility_">Who Should Donate Blood?</string>
+    <string name="female_">If you are female, you must:\n\u2022 Be healthy and feeling well\n\u2022 Be within 18–60 years old\n\u2022 Weigh at least 42kg</string>
+    <string name="male_">If you are male, you must:\n\u2022 Be healthy and feeling well\n\u2022 Be within 18–60 years old\n\u2022 Weigh at least 45kg</string>
+    <string name="info_">Giving blood saves lives.</string>
+    <string name="aboutus">This is a blood donation app.</string>
     <string name="user_list">User List</string>
-    <string name="statUser">Chart User</string>
-    <string name="chart_blood">Chart Blood</string>
+    <string name="statUser">User Chart</string>
+    <string name="chart_blood">Blood Chart</string>
     <string name="view_post">View Post</string>
     <string name="enter_your_registered_email">Enter your registered email</string>
 

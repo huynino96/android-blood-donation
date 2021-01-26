@@ -1,12 +1,5 @@
 package com.example.blood_donation.activities;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -20,14 +13,21 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+
 import com.example.blood_donation.R;
 import com.example.blood_donation.broadcast.MyApplication;
 import com.example.blood_donation.fragments.AboutUs;
 import com.example.blood_donation.fragments.BloodInfo;
 import com.example.blood_donation.fragments.BloodStat;
 import com.example.blood_donation.fragments.HomeView;
-import com.example.blood_donation.fragments.UserStat;
 import com.example.blood_donation.fragments.UserList;
+import com.example.blood_donation.fragments.UserStat;
 import com.example.blood_donation.model.User;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -149,9 +149,9 @@ public class Admin extends AppCompatActivity implements NavigationView.OnNavigat
 
         // Change status according to boolean value
         if (isConnected) {
-            Toast.makeText(getApplicationContext(), "Internet is connected", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Internet is connected!", Toast.LENGTH_LONG).show();
         } else {
-            Toast.makeText(getApplicationContext(), "There is no internet connection", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "There is no internet connection.", Toast.LENGTH_LONG).show();
 
         }
     }

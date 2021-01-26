@@ -1,6 +1,5 @@
 package com.example.blood_donation;
 
-import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.Service;
@@ -16,8 +15,6 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
 
-import com.example.blood_donation.model.User;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -27,6 +24,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
+// Notify user after blood donation cooldown has expired
 public class TimerService extends Service {
     private static final String CHANNEL_ID = "1";
     private String lastDonate;
@@ -46,7 +44,7 @@ public class TimerService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         if (intent.getExtras() != null) {
             lastDonate = intent.getStringExtra("lastDonate");
-            Log.d("Service Intent: ", "Last Donate" + lastDonate);
+            Log.d("Service Intent: ", "Last Donation" + lastDonate);
             sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
             t.scheduleAtFixedRate(new TimerTask() {
                 @RequiresApi(api = Build.VERSION_CODES.O)
@@ -58,7 +56,7 @@ public class TimerService extends Service {
                         lastDonateDate = sdf.parse(lastDonate);
                         long diffMilli = Math.abs(currentDate.getTime() - lastDonateDate.getTime());
                         long diff = TimeUnit.DAYS.convert(diffMilli, TimeUnit.MILLISECONDS);
-                        Log.d(getApplicationContext() + "", "Date after last donate: " + diff);
+                        Log.d(getApplicationContext() + "", "Date after last donation: " + diff);
                         if (diff >= DATE_DIFFERENT) {
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                                 sendNotification();
@@ -67,7 +65,7 @@ public class TimerService extends Service {
                                 NotificationManager manager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
                                 NotificationCompat.Builder builder = new NotificationCompat.Builder(TimerService.this, "My Notification")
                                         .setContentTitle("Blood Point")
-                                        .setContentText("It has been more 120 days since your last blood donation.\nYou may proceed to donate again")
+                                        .setContentText("It has been more 120 days since your last blood donation.\nYou may proceed to donate again.")
                                         .setSmallIcon(R.mipmap.blood_bank_icon_round);
 
                                 manager.notify(1, builder.build());
@@ -91,7 +89,7 @@ public class TimerService extends Service {
     public void onDestroy() {
         t.cancel();
         sendNotification();
-        Toast.makeText(this, "Cool down time has ended. You may proceed blood donating again", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Cool down time has ended. You may donate blood again.", Toast.LENGTH_SHORT).show();
         super.onDestroy();
     }
 
@@ -113,7 +111,7 @@ public class TimerService extends Service {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setSmallIcon(R.mipmap.blood_bank_icon_round)
                 .setContentTitle("Blood Point")
-                .setContentText("It has been more 120 days since your last blood donation.\nYou may proceed to donate again")
+                .setContentText("It has been more 120 days since your last blood donation.\nYou may proceed to donate again.")
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setChannelId(id);
 
