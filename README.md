@@ -2,10 +2,15 @@
 
 Blood Point - A Blood Donation App
 
-Ho Tuan Huy s3756868
-Tran Kim Long s3755614
-Tran Mach So Han s3750789
-Nguyen Minh Trang s3751450
+*HOW TO FIND THE PROJECT:
+**Unzip the android-blood-donation folder
+**Open "project" folder inside the parent folder
+
+
+- Ho Tuan Huy s3756868
+- Tran Kim Long s3755614
+- Tran Mach So Han s3750789
+- Nguyen Minh Trang s3751450
 
 Features:
 1. Let users register to be a blood donor
