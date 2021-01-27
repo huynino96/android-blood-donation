@@ -21,7 +21,6 @@ public class GetNearbyLocation extends AsyncTask<Object, String, String> {
     GoogleMap mMap;
     String url;
 
-
     @Override
     protected String doInBackground(Object... objects) {
         mMap = (GoogleMap) objects[0];
@@ -33,25 +32,21 @@ public class GetNearbyLocation extends AsyncTask<Object, String, String> {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
         return googlePlacesData;
     }
 
+    // After retrieving data from URL, display hospitals
     @Override
     protected void onPostExecute(String s) {
-
         List<HashMap<String, String>> nearbyPlaceList;
         DataParser parser = new DataParser();
         nearbyPlaceList = parser.parse(s);
-
         showNearbyPlaces(nearbyPlaceList);
     }
 
-    private void showNearbyPlaces(List<HashMap<String, String>> nearbyplaces)
-    {
-        for(int i=0; i<nearbyplaces.size(); i++)
-        {
+    // Place custom markers on all nearby places
+    private void showNearbyPlaces(List<HashMap<String, String>> nearbyplaces) {
+        for(int i = 0; i < nearbyplaces.size(); i++) {
             MarkerOptions markerOptions = new MarkerOptions();
             HashMap<String, String> googlePlace = nearbyplaces.get(i);
             Log.d("Place Query", nearbyplaces.get(i) + "");

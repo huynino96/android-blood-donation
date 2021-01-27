@@ -40,7 +40,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 // Separate layout for admin users
-public class Admin extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+public class Admin extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private FirebaseAuth mAuth;
     private FirebaseUser cur_user;
     private ProgressDialog pd;
@@ -103,8 +103,7 @@ public class Admin extends AppCompatActivity implements NavigationView.OnNavigat
 
     // Get and blow up admin drawer fragment
     private void setUpDrawer(Bundle savedInstanceState){
-        if(savedInstanceState == null)
-        {
+        if(savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentcontainer, new UserList()).commit();
         }
 

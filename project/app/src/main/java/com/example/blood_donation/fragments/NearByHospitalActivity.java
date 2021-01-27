@@ -54,10 +54,8 @@ public class NearByHospitalActivity extends Fragment implements
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
         view = inflater.inflate(R.layout.near_by_hospitals, container, false);
         getActivity().setTitle("Nearest Hospitals");
-
         return view;
     }
 
@@ -66,7 +64,7 @@ public class NearByHospitalActivity extends Fragment implements
         super.onViewCreated(view, savedInstanceState);
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getActivity());
-
+        // Different check permissions for API > 25
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             checkLocationPermission();
         }
@@ -75,11 +73,9 @@ public class NearByHospitalActivity extends Fragment implements
         if (mapFragment != null) {
             mapFragment.getMapAsync(this);
         }
-        else
-        {
+        else {
             Toast.makeText(getActivity(), "MapFragment is null, why?", Toast.LENGTH_LONG).show();
         }
-
     }
 
     @Override
@@ -99,27 +95,20 @@ public class NearByHospitalActivity extends Fragment implements
         }
     }
 
-
     @Override
     public void onMapReady(GoogleMap googleMap) {
-
         mMap = googleMap;
-
         if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             buildGoogleApiClient();
             mMap.setMyLocationEnabled(true);
 //            mMap.setTrafficEnabled(true);
-
         }
         mMap.getUiSettings().setZoomControlsEnabled(true);
-
-
     }
 
     protected synchronized void buildGoogleApiClient() {
         client = new GoogleApiClient.Builder(getActivity().getApplicationContext()).addConnectionCallbacks(this).addOnConnectionFailedListener(this).addApi(LocationServices.API).build();
         client.connect();
-
     }
 
     @Override
@@ -141,6 +130,7 @@ public class NearByHospitalActivity extends Fragment implements
             Toast.makeText(getActivity(), "You need to enable permissions to display location!", Toast.LENGTH_SHORT).show();
         }
 
+        // If location permission granted, show hospitals according to user location
         fusedLocationProviderClient.getLastLocation().addOnSuccessListener(getActivity(), new OnSuccessListener<Location>() {
             @Override
             public void onSuccess(Location location) {
@@ -150,8 +140,8 @@ public class NearByHospitalActivity extends Fragment implements
 
     }
 
+    // Query for nearby places (within radius)
     private String getUrl(double latitude, double longitude, String nearbyPlace) {
-
         StringBuilder googlePlaceUrl = new StringBuilder("https://maps.googleapis.com/maps/api/place/nearbysearch/json?");
         googlePlaceUrl.append("location=").append(latitude).append(",").append(longitude);
         googlePlaceUrl.append("&radius=").append(PROXIMITY_RADIUS);
@@ -160,7 +150,6 @@ public class NearByHospitalActivity extends Fragment implements
         googlePlaceUrl.append("&key=" + "AIzaSyCKU2tDG3mIREWPRkglPD1Jv8dsTmLM0Go");
 
         Log.d("NearbyHospitalActivity", "url = " + googlePlaceUrl.toString());
-
         return googlePlaceUrl.toString();
     }
 
@@ -188,6 +177,7 @@ public class NearByHospitalActivity extends Fragment implements
 
     }
 
+    // Update hospital location marker
     @Override
     public void onLocationChanged(Location location) {
         lastLocation = location;
@@ -206,15 +196,13 @@ public class NearByHospitalActivity extends Fragment implements
     public void onStart() {
         super.onStart();
 
-        if(client!=null)
-        {
+        if(client!=null) {
             client.connect();
         }
     }
 
     // Get hospital information from Google Places API
-    public void ShowHospitals(double latitude, double longitude)
-    {
+    public void ShowHospitals(double latitude, double longitude) {
         mMap.clear();
         Object[] dataTransfer = new Object[2];
         GetNearbyLocation getNearbyLocation = new GetNearbyLocation();
@@ -225,5 +213,4 @@ public class NearByHospitalActivity extends Fragment implements
         getNearbyLocation.execute(dataTransfer);
         Toast.makeText(getContext(), "Showing Nearby Hospitals", Toast.LENGTH_SHORT).show();
     }
-
 }

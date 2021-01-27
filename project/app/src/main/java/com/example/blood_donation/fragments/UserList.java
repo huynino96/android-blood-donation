@@ -38,7 +38,7 @@ public class UserList extends Fragment {
     private List<User> userList;
     private ProgressDialog pd;
 
-    public UserList(){
+    public UserList() {
 
     }
 
@@ -99,9 +99,7 @@ public class UserList extends Fragment {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
                 Log.d("User", databaseError.getMessage());
-
             }
         });
     }
