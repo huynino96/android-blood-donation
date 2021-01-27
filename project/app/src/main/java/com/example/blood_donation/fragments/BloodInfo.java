@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.blood_donation.R;
 
-
+// Simple infographic about compatible blood types/health requirements
 public class BloodInfo extends Fragment {
 
     @Nullable

@@ -31,7 +31,7 @@ public class InternetConnectorReceiver extends BroadcastReceiver {
                 NetworkInfo networkInfo = connectivityManager
                         .getActiveNetworkInfo();
 
-                // Check internet connection and accrding to state change the
+                // Check internet connection and according to state change the
                 // text of activity by calling method
                 if (networkInfo != null && networkInfo.isConnected()) {
 

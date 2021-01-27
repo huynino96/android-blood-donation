@@ -3,13 +3,11 @@ package com.example.blood_donation.fragments;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
-
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -31,11 +29,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
+// Display list of all blood requests (for admin)
 public class HomeView extends Fragment implements BloodRequestAdapter.OnConfigPost {
 
     private DatabaseReference donor_ref;

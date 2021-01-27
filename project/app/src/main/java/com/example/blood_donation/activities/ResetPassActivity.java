@@ -2,14 +2,10 @@ package com.example.blood_donation.activities;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-
 import android.os.Bundle;
 import android.text.TextUtils;
-
 import android.widget.EditText;
 import android.widget.Toast;
-
-
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -17,6 +13,7 @@ import com.example.blood_donation.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+// Reset Password screen
 public class ResetPassActivity extends AppCompatActivity {
 
     EditText userEmail;
@@ -49,6 +46,7 @@ public class ResetPassActivity extends AppCompatActivity {
             }
             else
             {
+                // Set confirmation email after reset password attempt
                 pd.show();
                 mAuth.sendPasswordResetEmail(email)
                         .addOnCompleteListener(task -> {

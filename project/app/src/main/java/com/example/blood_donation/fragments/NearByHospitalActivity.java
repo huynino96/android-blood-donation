@@ -39,7 +39,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 
-
+// Query and show nearby hospitals on GoogleMap
 public class NearByHospitalActivity extends Fragment implements
         OnMapReadyCallback, ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
 
@@ -212,6 +212,7 @@ public class NearByHospitalActivity extends Fragment implements
         }
     }
 
+    // Get hospital information from Google Places API
     public void ShowHospitals(double latitude, double longitude)
     {
         mMap.clear();

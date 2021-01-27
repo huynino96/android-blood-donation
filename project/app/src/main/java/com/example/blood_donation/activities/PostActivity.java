@@ -2,22 +2,18 @@ package com.example.blood_donation.activities;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.blood_donation.R;
-import com.example.blood_donation.model.CustomUser;
 import com.example.blood_donation.model.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -31,6 +27,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.Arrays;
 import java.util.Calendar;
 
+// Let user post a blood request
 public class PostActivity extends AppCompatActivity {
 
     ProgressDialog pd;
@@ -68,6 +65,7 @@ public class PostActivity extends AppCompatActivity {
 
         btnpost = findViewById(R.id.postbtn);
 
+        // Get datetime values at moment of post
         cal = Calendar.getInstance();
 
         int day = cal.get(Calendar.DAY_OF_MONTH);
@@ -104,13 +102,14 @@ public class PostActivity extends AppCompatActivity {
 
         FirebaseUser cur_user = FirebaseAuth.getInstance().getCurrentUser();
 
+        // If user is null, go back to login activity
         if(cur_user == null)
         {
             startActivity(new Intent(PostActivity.this, Login.class));
         } else {
+            // Else, proceed with posting
             uid = cur_user.getUid();
         }
-
         mAuth = FirebaseAuth.getInstance();
         fdb = FirebaseDatabase.getInstance();
         db_ref = fdb.getReference("posts");
@@ -118,7 +117,8 @@ public class PostActivity extends AppCompatActivity {
         String[] bloodGroup = getResources().getStringArray(R.array.Blood_Group);
         String[] division_list = getResources().getStringArray(R.array.division_list);
 
-        String toast = "Your post has been created successfully";
+        // Notify user about post creation status
+        String toast = "Your post has been created successfully.";
         Intent intent = getIntent();
         if (intent.getExtras() != null){
             text1.setText(intent.getStringExtra("Contact"));
@@ -128,9 +128,10 @@ public class PostActivity extends AppCompatActivity {
             Date = intent.getStringExtra("Date");
             Time = intent.getStringExtra("Time");
             btnpost.setText("EDIT");
-            toast = "You post has been edited successfully";
+            toast = "You post has been edited successfully.";
         }
 
+        // Ask user to fill empty fields
         try {
             String finalToast = toast;
             btnpost.setOnClickListener(v -> {
@@ -151,7 +152,7 @@ public class PostActivity extends AppCompatActivity {
                     findname.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
+                            // Update blood request post to database
                             if (dataSnapshot.exists()) {
                                 db_ref.child(uid).child("Name").setValue(dataSnapshot.getValue(User.class).getName());
                                 db_ref.child(uid).child("Contact").setValue(text1.getText().toString());
@@ -168,7 +169,6 @@ public class PostActivity extends AppCompatActivity {
                                 Toast.makeText(getApplicationContext(), "Database error.",
                                         Toast.LENGTH_LONG).show();
                             }
-
                         }
 
                         @Override

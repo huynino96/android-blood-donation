@@ -2,8 +2,6 @@ package com.example.blood_donation.adapters;
 
 import android.annotation.SuppressLint;
 import android.graphics.Color;
-
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,8 +17,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.List;
 
-
-
+// Adapter to display list of blood requests
 public class BloodRequestAdapter extends RecyclerView.Adapter<BloodRequestAdapter.PostHolder> {
 
 

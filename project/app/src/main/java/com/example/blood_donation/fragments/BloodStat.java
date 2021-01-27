@@ -33,6 +33,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+// Percentage of user blood types (for admin view)
 public class BloodStat extends Fragment {
     private DatabaseReference db_ref;
 

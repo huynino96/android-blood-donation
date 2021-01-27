@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -24,6 +23,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
 
+// Adapter to display list of users for admins
 public class UserViewAdapter extends RecyclerView.Adapter<UserViewAdapter.UserHolder>{
     private List<User> userList;
     private String[] blood_array, division_array;

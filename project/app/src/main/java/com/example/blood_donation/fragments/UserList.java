@@ -18,7 +18,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.blood_donation.R;
 import com.example.blood_donation.adapters.UserViewAdapter;
-import com.example.blood_donation.model.CustomUser;
 import com.example.blood_donation.model.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -31,6 +30,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
+// List of users (admin view)
 public class UserList extends Fragment {
     private DatabaseReference user_ref;
     FirebaseAuth mAuth;

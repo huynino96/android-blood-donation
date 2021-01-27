@@ -13,7 +13,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.blood_donation.R;
 
-
+// Simple About Us screen
 public class AboutUs extends Fragment {
 
     @Nullable

@@ -39,6 +39,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+// Separate layout for admin users
 public class Admin extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
     private FirebaseAuth mAuth;
     private FirebaseUser cur_user;
@@ -51,6 +52,7 @@ public class Admin extends AppCompatActivity implements NavigationView.OnNavigat
         super.onCreate(savedInstanceState);
         setContentView(R.layout.admin);
 
+        // Check internet connectivity
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
         if (networkInfo != null && networkInfo.isConnected()) {
@@ -59,11 +61,13 @@ public class Admin extends AppCompatActivity implements NavigationView.OnNavigat
             changeTextStatus(false);
         }
 
+        // Display load animation
         pd = new ProgressDialog(this);
         pd.setMessage("Loading...");
         pd.setCancelable(true);
         pd.setCanceledOnTouchOutside(false);
 
+        // Get and greet current user from database
         mAuth = FirebaseAuth.getInstance();
         FirebaseDatabase user_db = FirebaseDatabase.getInstance();
         cur_user = mAuth.getCurrentUser();
@@ -75,8 +79,8 @@ public class Admin extends AppCompatActivity implements NavigationView.OnNavigat
         Query singleUser = userdb_ref.child(cur_user.getUid());
         pd.show();
 
+        // Update info if a new user logs in
         singleUser.addListenerForSingleValueEvent(new ValueEventListener() {
-
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 //pd.show();
@@ -93,11 +97,12 @@ public class Admin extends AppCompatActivity implements NavigationView.OnNavigat
             }
         });
 
+        // Display drawer layout
         setUpDrawer(savedInstanceState);
     }
 
+    // Get and blow up admin drawer fragment
     private void setUpDrawer(Bundle savedInstanceState){
-
         if(savedInstanceState == null)
         {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentcontainer, new UserList()).commit();
@@ -145,14 +150,13 @@ public class Admin extends AppCompatActivity implements NavigationView.OnNavigat
         return super.onOptionsItemSelected(item);
     }
 
+    // Display internet connection status
     public void changeTextStatus(boolean isConnected) {
-
         // Change status according to boolean value
         if (isConnected) {
             Toast.makeText(getApplicationContext(), "Internet is connected!", Toast.LENGTH_LONG).show();
         } else {
             Toast.makeText(getApplicationContext(), "There is no internet connection.", Toast.LENGTH_LONG).show();
-
         }
     }
 
@@ -170,7 +174,6 @@ public class Admin extends AppCompatActivity implements NavigationView.OnNavigat
 
     @Override
     protected void onPause() {
-
         super.onPause();
         MyApplication.activityPaused();// On Pause notify the Application
     }
@@ -197,6 +200,7 @@ public class Admin extends AppCompatActivity implements NavigationView.OnNavigat
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
 
+        // Display a different fragment based on navigation option and close the host
         if (id == R.id.InfoDonor){
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentcontainer, new UserList()).commit();
         }

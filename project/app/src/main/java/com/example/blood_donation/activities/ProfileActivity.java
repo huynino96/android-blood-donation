@@ -3,7 +3,6 @@ package com.example.blood_donation.activities;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
-
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -14,15 +13,11 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.blood_donation.R;
 import com.example.blood_donation.model.User;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -33,6 +28,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.Calendar;
 
+// Let user create/update profile
 public class ProfileActivity extends AppCompatActivity {
 
     private EditText inputEmail, inputPassword, retypePassword, fullName, address, contact;
@@ -73,11 +69,11 @@ public class ProfileActivity extends AppCompatActivity {
         contact = findViewById(R.id.inputMobile);
         isDonor = findViewById(R.id.checkbox);
 
+        // There is also a sign up button
         Button btnSignup = findViewById(R.id.button_register);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         if (mAuth.getCurrentUser() != null) {
-
             inputEmail.setVisibility(View.GONE);
             inputPassword.setVisibility(View.GONE);
             retypePassword.setVisibility(View.GONE);
@@ -88,12 +84,11 @@ public class ProfileActivity extends AppCompatActivity {
             findViewById(R.id.image_logo).setVisibility(View.GONE);
             isUpdate = true;
 
+            // Update new user to database
             Query Profile = db_ref.child(mAuth.getCurrentUser().getUid());
             Profile.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-
                     User userData = dataSnapshot.getValue(User.class);
 
                     if (userData != null) {
@@ -117,11 +112,11 @@ public class ProfileActivity extends AppCompatActivity {
                                 if(dataSnapshot.exists())
                                 {
                                     isDonor.setChecked(true);
-                                    isDonor.setText("Unmark this to leave from donors");
+                                    isDonor.setText("Unmark to stop being a donor.");
                                 }
                                 else
                                 {
-                                    Toast.makeText(ProfileActivity.this, "Your are not a donor! Be a donor and save life by donating blood.",
+                                    Toast.makeText(ProfileActivity.this, "You are not a donor!",
                                             Toast.LENGTH_LONG).show();
                                 }
                                 pd.dismiss();
@@ -135,7 +130,6 @@ public class ProfileActivity extends AppCompatActivity {
 
                         });
                     }
-
                 }
 
                 @Override
@@ -143,9 +137,9 @@ public class ProfileActivity extends AppCompatActivity {
                     Log.d("User", databaseError.getMessage());
                 }
             });
-
-
         } else pd.dismiss();
+
+        // Once user hit sign up, gather all info
         btnSignup.setOnClickListener(v -> {
             final String email = inputEmail.getText().toString();
             final String password = inputPassword.getText().toString();
@@ -159,8 +153,8 @@ public class ProfileActivity extends AppCompatActivity {
             final String blood = bloodGroup.getSelectedItem().toString();
             final String div   = division.getSelectedItem().toString();
 
+            // Validate input parameters (name, contact number, address etc.)
             try {
-
                 if (Name.length() <= 2) {
                     ShowError("Name");
                     fullName.requestFocusFromTouch();
@@ -193,6 +187,7 @@ public class ProfileActivity extends AppCompatActivity {
                                             Log.d("TAG", "onCreate: failed");
                                             Log.v("error", task.getException().getMessage());
                                         } else {
+                                            // If values are valid, set new user info to database
                                             String id = mAuth.getCurrentUser().getUid();
                                             db_ref.child(id).child("Name").setValue(Name);
                                             db_ref.child(id).child("Gender").setValue(Gender);
@@ -227,7 +222,7 @@ public class ProfileActivity extends AppCompatActivity {
                         }
 
                     } else {
-
+                        // If values are valid, set new user info to database
                         String id = mAuth.getCurrentUser().getUid();
                         db_ref.child(id).child("Name").setValue(Name);
                         db_ref.child(id).child("Gender").setValue(Gender);
@@ -238,7 +233,7 @@ public class ProfileActivity extends AppCompatActivity {
                         db_ref.child(id).child("Role").setValue("member");
                         db_ref.child(id).child("UID").setValue(id).toString();
 
-
+                        // Set this user to be a donor if opted in
                         if(isDonor.isChecked())
                         {
                             donor_ref.child(div).child(blood).child(id).child("UID").setValue(id).toString();
@@ -254,6 +249,7 @@ public class ProfileActivity extends AppCompatActivity {
                             donor_ref.child(div).child(blood).child(id).removeValue();
 
                         }
+                        // Notify and take user to Dashboard
                         Toast.makeText(getApplicationContext(), "Your account has been updated!", Toast.LENGTH_LONG)
                                 .show();
                         Intent intent = new Intent(ProfileActivity.this, Dashboard.class);
@@ -272,7 +268,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     private void ShowError(String error) {
 
-        Toast.makeText(ProfileActivity.this, "Please, Enter a valid "+error,
+        Toast.makeText(ProfileActivity.this, "Please, enter a valid "+error,
                 Toast.LENGTH_LONG).show();
     }
 

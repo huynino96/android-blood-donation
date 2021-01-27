@@ -3,7 +3,6 @@ package com.example.blood_donation.activities;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
@@ -19,7 +18,6 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.blood_donation.R;
-import com.example.blood_donation.broadcast.AirPlaneModeReceiver;
 import com.example.blood_donation.broadcast.MyApplication;
 import com.example.blood_donation.model.User;
 import com.google.firebase.auth.FirebaseAuth;
@@ -34,6 +32,7 @@ import com.tomer.fadingtextview.FadingTextView;
 
 import java.util.concurrent.TimeUnit;
 
+// Still runs even if "tomer" library is marked red
 public class Login extends AppCompatActivity {
 
     private EditText inputEmail, inputPassword;
@@ -53,6 +52,7 @@ public class Login extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
+        // Check internet connection
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
         if (networkInfo != null && networkInfo.isConnected()) {
@@ -71,6 +71,7 @@ public class Login extends AppCompatActivity {
         }
     }
 
+    // Set up login screen
     private void initializeView(){
         inputEmail = findViewById(R.id.input_username);
         inputPassword = findViewById(R.id.input_password);
@@ -79,6 +80,7 @@ public class Login extends AppCompatActivity {
         Button signup = findViewById(R.id.button_register);
         Button resetpass = findViewById(R.id.button_forgot_password);
 
+        // Authenticate user sign in
         signin.setOnClickListener(v -> {
             final String email = inputEmail.getText().toString()+"";
             final String password = inputPassword.getText().toString()+"";
@@ -114,11 +116,13 @@ public class Login extends AppCompatActivity {
             }
         });
 
+        // To Sign Up activity
         signup.setOnClickListener(v -> {
             Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
             startActivity(intent);
         });
 
+        // To Reset Password activity
         resetpass.setOnClickListener(v -> {
             Intent intent = new Intent(getApplicationContext(), ResetPassActivity.class);
             startActivity(intent);
@@ -154,6 +158,7 @@ public class Login extends AppCompatActivity {
         super.onStop();
     }
 
+    // Welcome animation
     private void onDefiningRole(FirebaseUser cur_user) {
         setContentView(R.layout.welcome_log_in);
         FadingTextView fadingUserTextView = (FadingTextView) findViewById(R.id.user_name_faded);

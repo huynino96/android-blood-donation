@@ -35,6 +35,7 @@ import java.util.TimeZone;
 
 import lombok.NoArgsConstructor;
 
+// Display current user's donation history
 @NoArgsConstructor
 public class AchievementView extends Fragment {
 

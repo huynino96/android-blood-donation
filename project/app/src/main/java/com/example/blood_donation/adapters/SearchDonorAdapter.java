@@ -2,12 +2,10 @@ package com.example.blood_donation.adapters;
 
 import android.annotation.SuppressLint;
 import android.graphics.Color;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,8 +15,7 @@ import com.example.blood_donation.model.Donor;
 
 import java.util.List;
 
-
-
+// Adapter to display list of donors from search query results
 public class SearchDonorAdapter extends RecyclerView.Adapter<SearchDonorAdapter.PostHolder> {
     private List<Donor> postLists;
     private OnSearchDonorListener mDonorListener;

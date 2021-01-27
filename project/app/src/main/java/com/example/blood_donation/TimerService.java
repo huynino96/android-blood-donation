@@ -24,7 +24,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
-// Notify user after blood donation cooldown has expired
+// Send notification to user after blood donation cool down has expired
 public class TimerService extends Service {
     private static final String CHANNEL_ID = "1";
     private String lastDonate;

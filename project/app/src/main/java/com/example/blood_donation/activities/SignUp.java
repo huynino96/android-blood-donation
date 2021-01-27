@@ -26,9 +26,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.HashMap;
 import java.util.Objects;
 
+// Sign Up lets user both sign up and update their profile
+// Mostly identical to ProfileActivity
+// Depends on which scenario the display will show or hide some elements
 public class SignUp extends AppCompatActivity {
     private EditText inputEmail, inputPassword, retypePassword, fullName, address, phone;
     private FirebaseAuth mAuth;
@@ -110,11 +112,11 @@ public class SignUp extends AppCompatActivity {
                                 if(dataSnapshot.exists())
                                 {
                                     isDonor.setChecked(true);
-                                    isDonor.setText("Unmark this to leave from donors");
+                                    isDonor.setText("Unmark to stop being a donor.");
                                 }
                                 else
                                 {
-                                    Toast.makeText(SignUp.this, "Your are not a donor! Be a donor and save life by donating blood.",
+                                    Toast.makeText(SignUp.this, "You are not a donor!",
                                             Toast.LENGTH_LONG).show();
                                 }
                                 pd.dismiss();
@@ -172,7 +174,7 @@ public class SignUp extends AppCompatActivity {
                             ShowError("Password");
                             inputPassword.requestFocusFromTouch();
                         } else if (password.compareTo(ConfirmPassword) != 0) {
-                            Toast.makeText(SignUp.this, "Password did not match!", Toast.LENGTH_LONG)
+                            Toast.makeText(SignUp.this, "Password do not match!", Toast.LENGTH_LONG)
                                     .show();
                             retypePassword.requestFocusFromTouch();
                         } else {
@@ -181,7 +183,7 @@ public class SignUp extends AppCompatActivity {
                                     .addOnCompleteListener(SignUp.this, task -> {
 
                                         if (!task.isSuccessful()) {
-                                            Toast.makeText(SignUp.this, "Registration failed! try again.", Toast.LENGTH_LONG)
+                                            Toast.makeText(SignUp.this, "Registration failed! Try again.", Toast.LENGTH_LONG)
                                                     .show();
                                             Log.v("error", task.getException().getMessage());
                                         } else {
@@ -262,7 +264,7 @@ public class SignUp extends AppCompatActivity {
 
     private void ShowError(String error) {
 
-        Toast.makeText(SignUp.this, "Please, Enter a valid "+error,
+        Toast.makeText(SignUp.this, "Please, enter a valid "+error,
                 Toast.LENGTH_LONG).show();
     }
 

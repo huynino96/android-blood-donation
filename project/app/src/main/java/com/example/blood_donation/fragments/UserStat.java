@@ -54,6 +54,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+// Chart to view number of new registrations
 public class UserStat extends Fragment implements OnChartValueSelectedListener {
     private ProgressDialog pd;
     private DatabaseReference db_ref;

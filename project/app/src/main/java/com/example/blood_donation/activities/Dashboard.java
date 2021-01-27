@@ -42,8 +42,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-
-
+// Main screen for regular users
+// Same as main screen for admins
 public class Dashboard extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -62,7 +62,8 @@ public class Dashboard extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
-        
+
+        // Check internet connection
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
         if (networkInfo != null && networkInfo.isConnected()) {
@@ -71,6 +72,7 @@ public class Dashboard extends AppCompatActivity
             changeTextStatus(false);
         }
 
+        // Display load animation and greet current user
         pd = new ProgressDialog(this);
         pd.setMessage("Loading...");
         pd.setCancelable(true);
@@ -87,6 +89,7 @@ public class Dashboard extends AppCompatActivity
         getUserEmail = findViewById(R.id.UserEmailView);
         getUserName = findViewById(R.id.UserNameView);
 
+        // Take user to posting activity (create new blood post)
         fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,10 +98,9 @@ public class Dashboard extends AppCompatActivity
             }
         });
 
+        // Update and display donation info
         Query singleUser = userdb_ref.child(cur_user.getUid());
-
         singleUser.addListenerForSingleValueEvent(new ValueEventListener() {
-
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
@@ -142,11 +144,11 @@ public class Dashboard extends AppCompatActivity
             }
         });
 
+        // Display regular user drawer
         setUpDrawer(savedInstanceState);
     }
 
     private void setUpDrawer(Bundle savedInstanceState){
-
         if(savedInstanceState == null)
         {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentcontainer, new HomeView()).commit();
@@ -169,11 +171,9 @@ public class Dashboard extends AppCompatActivity
         getUserName = (TextView) header.findViewById(R.id.UserNameView);
 
         navigationView.getMenu().getItem(0).setChecked(true);
-
     }
 
     public void changeTextStatus(boolean isConnected) {
-
         // Change status according to boolean value
         if (isConnected) {
             Toast.makeText(getApplicationContext(), "Internet is connected", Toast.LENGTH_LONG).show();
@@ -182,7 +182,7 @@ public class Dashboard extends AppCompatActivity
         }
     }
 
-
+    // Close layout if back button is pressed
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -294,7 +294,5 @@ public class Dashboard extends AppCompatActivity
         intent.putExtra("lastDonate", lastDonate);
         startService(intent);
     }
-
-
 }
 
